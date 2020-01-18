@@ -55,12 +55,10 @@ export default {
 
 	methods: {
 		fetchExtractionsStadistics(url) {
-			axios.get(url).then(response => {
+			axios.post(url,{data:'data'}).then(response => {
 				this.extractions = response.data.today_extractions;
 			});
 		},
-
-
 
 		fetchTotalCows(url) {
 			axios.get(url).then(response => {
@@ -73,8 +71,6 @@ export default {
 				this.totalVaccines = response.data.data;
 			});
 		},
-
-
 	},
 
 	created() {
@@ -89,7 +85,6 @@ export default {
 			this.extractions.forEach(ele => {
 				totalMilk += ele.quantity;
 			});
-
 			return totalMilk;
 		}
 	}

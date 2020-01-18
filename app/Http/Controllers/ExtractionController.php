@@ -30,19 +30,22 @@ class ExtractionController extends Controller {
 		], 200);
 	}
 
-	public function stadisticsExtractions() {
-
+	public function stadisticsExtractions(Request $request) 
+	{
 		$todayExtractions = Extraction::today()->get();
 		$fromDate = Carbon::now()->startOfWeek()->toDateString();
 		$tillDate = Carbon::now()->toDateString();
+		
 		$weekExtractions = $this->extraction->getExtractionsForWeek($fromDate, $tillDate);
 		$monthExtractions = $this->extraction->getExtractionsForMonth();
+		$rangeExtractions = $this->extraction->getExtractionsForRange($request);
 
 		return response([
-			'status' => 'success',
+			'status' 			=> 'success',
 			'today_extractions' => $todayExtractions,
-			'week_extractions' => $weekExtractions,
+			'week_extractions' 	=> $weekExtractions,
 			'month_extractions' => $monthExtractions,
+			'range_extractions' => $rangeExtractions
 		], 200);
 
 	}

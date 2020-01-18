@@ -46,7 +46,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/medicine/register', 'MedicineController@register');
 	Route::get('/medicines', 'MedicineController@index');
 	Route::put('/medicine/update/{medicine}', 'MedicineController@update');
-	// Route::get('/medicine/{milking?}', 'MedicineController@index');
 	Route::delete('/medicine/delete/{medicine}', 'MedicineController@delete');
 
 	//Vaccines
@@ -59,7 +58,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	//Extractions
 	Route::post('/extraction/register', 'ExtractionController@register');
 	Route::get('/extractions', 'ExtractionController@index');
-	Route::get('/extractions/stadistics', 'ExtractionController@stadisticsExtractions');
+	Route::post('/extractions/stadistics', 'ExtractionController@stadisticsExtractions');
 	Route::put('/extraction/update/{extraction}', 'ExtractionController@update');
 	Route::delete('/extraction/delete/{extraction}', 'ExtractionController@delete');
 

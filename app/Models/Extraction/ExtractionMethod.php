@@ -22,7 +22,7 @@ trait ExtractionMethod {
 
 	public function getExtractionsForMonth() {
 		$actualMonth = Carbon::now()->month;
-		$lapsus = ['Semana 1', 'Semana2', 'Semena3', 'Semana4', 'Semana5'];
+		$lapsus = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5'];
 		$registers = [];
 
 		$monthExtractions = $this::whereMonth('date', $actualMonth)->get();
@@ -36,7 +36,29 @@ trait ExtractionMethod {
 
 		return $registers;
 	}
+	
+	public function getExtractionsForRange($request) {
+		$registers = [];
+		$months = [
+				'Enero', 'Febrero', 'Marzo', 
+				'Abril', 'Mayo', 'Junio', 
+				'Julio','Agosto','Septiembre',
+				'Octubre','Noviembre','Diciembre'
+		];
+		if (!is_null($request->range['from'])&&!is_null($request->range['to'])) {
+			$monthExtractions = $this::whereBetween('date', [
+				$request->range['from'], $request->range['to']
+			])->get();
+			foreach ($monthExtractions as $extraction) {
 
+				$date = new Carbon($extraction->date);
+				$value = $registers[$months[$date->weekOfMonth - 1]] ?? 0;
+				$registers[$months[$date->weekOfMonth - 1]] = $value + $extraction->quantity;
+			}
+			return $registers;
+		}
+		return $registers;
+	}
 }
 
 ?>

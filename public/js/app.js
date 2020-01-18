@@ -13024,7 +13024,9 @@ __webpack_require__.r(__webpack_exports__);
     fetchExtractionsStadistics: function fetchExtractionsStadistics(url) {
       var _this = this;
 
-      axios.get(url).then(function (response) {
+      axios.post(url, {
+        data: 'data'
+      }).then(function (response) {
         _this.extractions = response.data.today_extractions;
       });
     },
@@ -14208,6 +14210,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -14216,6 +14256,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       weekData: null,
       monthData: null,
+      rangeData: null,
+      range: {
+        from: null,
+        to: null
+      },
       options: {
         responsive: true,
         maintainAspectRatio: false
@@ -14231,54 +14276,61 @@ __webpack_require__.r(__webpack_exports__);
     fetchExtractionsStadistics: function fetchExtractionsStadistics(url) {
       var _this = this;
 
-      axios.get(url).then(function (response) {
+      axios.post(url, {
+        range: this.range
+      }).then(function (response) {
         _this.setWeekData(response.data.week_extractions);
 
         _this.setMonthData(response.data.month_extractions);
+
+        _this.setRangeData(response.data.range_extractions);
       });
     },
     setWeekData: function setWeekData(data) {
       this.weekData = {
-        // labels: [
-        //   "January",
-        //   "February",
-        //   "March",
-        //   "April",
-        //   "May",
-        //   "June",
-        //   "July"
-        // ],
         labels: Object.keys(data),
         datasets: [{
-          label: "Dias de la semana",
+          label: "Litros de la semana",
           backgroundColor: 'green',
-          // data: [40, 39, 10, 40, 39, 80, 40]
           data: Object.values(data)
         }]
       };
     },
     setMonthData: function setMonthData(data) {
       this.monthData = {
-        // labels: [
-        //   "January",
-        //   "February",
-        //   "March",
-        //   "April",
-        //   "May",
-        //   "June",
-        //   "July"
-        // ],
         labels: Object.keys(data),
         datasets: [{
-          label: "Semanas",
+          label: "Litros de la semana",
           backgroundColor: 'blue',
-          // data: [40, 39, 10, 40, 39, 80, 40]
           data: Object.values(data)
         }]
       };
     },
-    refreshChart: function refreshChart() {
-      this.$refs.chart.refresh();
+    setRangeData: function setRangeData(data) {
+      this.rangeData = {
+        labels: Object.keys(data),
+        datasets: [{
+          label: "Litros del mes",
+          backgroundColor: 'yellow',
+          data: Object.values(data)
+        }]
+      };
+    },
+    refreshChart: function refreshChart(id) {
+      if (id === '2') {
+        this.$refs.chart2.refresh();
+      } else {
+        this.$refs.chart3.refresh();
+      }
+    },
+    searchRange: function searchRange() {
+      if (this.range.from !== null && this.range.from !== "" && this.range.to !== null && this.range.to !== "") {
+        this.fetchExtractionsStadistics(this.fetchExtractionsUrl);
+      } else {
+        swal("Rango no definido!", {
+          icon: "warning"
+        });
+      }
     }
   },
   created: function created() {
@@ -88043,7 +88095,7 @@ var render = function() {
                     staticClass: "nav-item",
                     on: {
                       "~click": function($event) {
-                        return _vm.refreshChart($event)
+                        return _vm.refreshChart("2")
                       }
                     }
                   },
@@ -88062,6 +88114,35 @@ var render = function() {
                         }
                       },
                       [_vm._v("Extraccion del mes")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "nav-item",
+                    on: {
+                      "~click": function($event) {
+                        return _vm.refreshChart("3")
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link",
+                        attrs: {
+                          id: "range-tab",
+                          "data-toggle": "tab",
+                          href: "#range",
+                          role: "tab",
+                          "aria-controls": "range",
+                          "aria-selected": "false"
+                        }
+                      },
+                      [_vm._v("Extraccion por rango de Fecha")]
                     )
                   ]
                 )
@@ -88132,9 +88213,124 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("chart", {
-                            ref: "chart",
+                            ref: "chart2",
                             attrs: {
                               "chart-data": _vm.monthData,
+                              options: _vm.options
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade",
+                    attrs: {
+                      id: "range",
+                      role: "tabpanel",
+                      "aria-labelledby": "range-tab"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-md-8 offset-2" },
+                        [
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "text-center" }, [
+                            _vm._v(
+                              " Extraccion de leche por litro, rango de fecha."
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "row" }, [
+                            _c("div", { staticClass: "offset-1 col-md-4" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.range.from,
+                                    expression: "range.from"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "date" },
+                                domProps: { value: _vm.range.from },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.range,
+                                      "from",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-4" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.range.to,
+                                    expression: "range.to"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  disabled: _vm.range.from === null,
+                                  type: "date"
+                                },
+                                domProps: { value: _vm.range.to },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.range,
+                                      "to",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-1" }, [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "text-white btn btn-info",
+                                  on: { click: _vm.searchRange }
+                                },
+                                [
+                                  _c("font-awesome-icon", {
+                                    attrs: { icon: "search" }
+                                  })
+                                ],
+                                1
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("chart", {
+                            ref: "chart3",
+                            attrs: {
+                              "chart-data": _vm.rangeData,
                               options: _vm.options
                             }
                           })
