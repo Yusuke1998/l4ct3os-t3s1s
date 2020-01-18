@@ -8,6 +8,10 @@ trait VaccineMutator {
 		return $this->employee->name ?? '';
 	}
 
+	public function getNameMedicineAttribute() {
+		return $this->medicine->name_medicine ?? '';
+	}
+
 	public function getCodeCowAttribute() {
 		return $this->cow->code ?? '';
 	}

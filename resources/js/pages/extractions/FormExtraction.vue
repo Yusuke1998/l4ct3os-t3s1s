@@ -8,7 +8,7 @@
 			</div>
 
 			<p
-				v-if="employees.length < 1"
+				v-if="employees.length==0"
 				class="form-control"
 				aria-describedby="basic-addon4"
 			>
@@ -16,45 +16,43 @@
 			</p>
 
 			<select
+				v-else
 				class="form-control"
 				id="exampleFormControlSelect1"
 				aria-describedby="basic-addon4"
 				placeholder="Seleccionar"
 				v-model="form.employee_id"
 				required
-				v-for="employee in employees"
-				:key="employee.id"
 			>
 				<option value="" selected="">Seleccionar</option>
-				<option :value="employee.id">{{ employee.name }}</option>
+				<option 
+					v-for="employee in employees"
+					:key="employee.id" 
+					:value="employee.id">{{ employee.name }}</option>
 			</select>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="basic-addon4">Res</span>
 			</div>
-
-			<p
-				v-if="cows.length < 1"
+			<p v-if="cows.length==0"
 				class="form-control"
-				aria-describedby="basic-addon4"
-			>
+				aria-describedby="basic-addon4">
 				<b>No hay reses para ordeñar disponibles</b>
 			</p>
-
 			<select
+				v-else
 				class="form-control"
 				id="exampleFormControlSelect1"
 				aria-describedby="basic-addon4"
 				placeholder="Seleccionar"
 				v-model="form.cow_id"
-				required
-				v-for="cow in cows"
-				:key="cow.id"
-			>
+				required>
 				<option value="" selected="">Seleccionar</option>
-				<option :value="cow.id"
-					>{{ cow.code }} - {{ cow.weight }} Kg</option
+				<option 
+					v-for="cow in cows"
+					:key="cow.id" 
+					:value="cow.id">{{ cow.code }} - {{ cow.weight }} Kg</option
 				>
 			</select>
 		</div>

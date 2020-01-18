@@ -42,6 +42,13 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::put('/cow/update/{cow}', 'CowController@update');
 	Route::delete('/cow/delete/{cow}', 'CowController@delete');
 
+	//medicines
+	Route::post('/medicine/register', 'MedicineController@register');
+	Route::get('/medicines', 'MedicineController@index');
+	Route::put('/medicine/update/{medicine}', 'MedicineController@update');
+	// Route::get('/medicine/{milking?}', 'MedicineController@index');
+	Route::delete('/medicine/delete/{medicine}', 'MedicineController@delete');
+
 	//Vaccines
 	Route::post('/vaccine/register', 'VaccineController@register');
 	Route::get('/vaccines/total/today', 'VaccineController@countTotalToday');

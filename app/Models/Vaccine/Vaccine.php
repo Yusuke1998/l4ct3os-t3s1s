@@ -14,5 +14,5 @@ class Vaccine extends Model {
 		VaccineMutator;
 
 	protected $guarded = [];
-	protected $appends = ['name_employee', 'code_cow'];
+	protected $appends = ['name_employee', 'code_cow', 'name_medicine'];
 }

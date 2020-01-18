@@ -38,6 +38,17 @@
 				<li class="nav-item">
 					<router-link
 						tag="a"
+						:to="{ name: 'Medicines' }"
+						class="nav-link"
+					>
+						<font-awesome-icon icon="medkit" />
+
+						Medicinas existentes
+					</router-link>
+				</li>
+				<li class="nav-item">
+					<router-link
+						tag="a"
 						:to="{ name: 'Vaccines' }"
 						class="nav-link"
 					>

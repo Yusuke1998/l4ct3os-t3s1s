@@ -6,13 +6,39 @@
 					>Nombre de la vacuna</span
 				>
 			</div>
+			<p v-if="medicines.length === 0"
+				class="form-control"
+				aria-describedby="basic-addon4">
+				<b>No hay vacuna disponibles</b>
+			</p>
+
+			<select v-else
+				class="form-control"
+				id="exampleFormControlSelect1"
+				aria-describedby="basic-addon4"
+				placeholder="Seleccionar"
+				v-model="form.medicine_id"
+				required
+			>
+				<option selected>Seleccionar</option>
+				<option 
+					v-for="medicine in medicines" 
+					:key="medicine.id" 
+					:value="medicine.id">{{ medicine.name_medicine }}</option>
+			</select>
+		</div>
+
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">mg</span>
+			</div>
 			<input
 				type="text"
 				class="form-control"
-				placeholder="Nombre completo"
+				placeholder="Cantidad aplicada"
 				aria-label="Nombre"
 				aria-describedby="basic-addon1"
-				v-model="form.name_vacuna"
+				v-model="form.quantity"
 				required
 			/>
 		</div>
@@ -33,21 +59,7 @@
 				required
 			/>
 		</div>
-
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon1">mg</span>
-			</div>
-			<input
-				type="text"
-				class="form-control"
-				placeholder="Cantidad aplicada"
-				aria-label="Nombre"
-				aria-describedby="basic-addon1"
-				v-model="form.quantity"
-				required
-			/>
-		</div>
+		
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="basic-addon4"
@@ -55,26 +67,25 @@
 				>
 			</div>
 
-			<p
-				v-if="employees.length < 1"
+			<p v-if="employees.length === 0"
 				class="form-control"
-				aria-describedby="basic-addon4"
-			>
+				aria-describedby="basic-addon4">
 				<b>No hay vacunadores disponibles</b>
 			</p>
 
-			<select
+			<select v-else
 				class="form-control"
 				id="exampleFormControlSelect1"
 				aria-describedby="basic-addon4"
 				placeholder="Seleccionar"
 				v-model="form.employee_id"
 				required
-				v-for="employee in employees"
-				:key="employee.id"
 			>
-				<option value="" selected="">Seleccionar</option>
-				<option :value="employee.id">{{ employee.name }}</option>
+				<option selected>Seleccionar</option>
+				<option 
+					v-for="employee in employees" 
+					:key="employee.id" 
+					:value="employee.id">{{ employee.name }}</option>
 			</select>
 		</div>
 	</form>
@@ -94,18 +105,20 @@ export default {
 				id: "",
 				employee_id: "",
 				cow_id: "",
-				name_vacuna: "",
+				medicine_id: "",
 				date: "",
 				quantity: ""
 			},
 
 			employees: [],
+			medicines: [],
 
 			deleteUrl: "/vaccine/delete",
 			updateUrl: "/vaccine/update",
 			createUrl: "/vaccine/register",
 			id: "vaccines",
-			fecthEmployeesUrl: `/employees/vaccination`
+			fecthEmployeesUrl: `/employees/vaccination`,
+			fecthMedicinesUrl: `/medicines`
 		};
 	},
 
@@ -115,12 +128,18 @@ export default {
 		});
 
 		this.fetchEmployees(this.fecthEmployeesUrl);
+		this.fetchMedicines(this.fecthMedicinesUrl);
 	},
 
 	methods: {
 		fetchEmployees(url) {
 			axios.get(url).then(response => {
 				this.employees = response.data.data;
+			});
+		},
+		fetchMedicines(url) {
+			axios.get(url).then(response => {
+				this.medicines = response.data.data;
 			});
 		}
 	},

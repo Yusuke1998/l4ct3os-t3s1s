@@ -3,6 +3,7 @@ import LoginPage from "./pages/auth/LoginPage.vue";
 import UsersPage from "./pages/users/UsersPage";
 import EmployeesPage from "./pages/employees/EmployeesPage";
 import CowsPage from "./pages/cows/CowsPage";
+import MedicinesPage from "./pages/medicines/MedicinesPage";
 import VaccinesPage from "./pages/vaccines/VaccinesPage";
 import ExtractionsPage from "./pages/extractions/ExtractionsPage";
 import StadisticsPage from './pages/stadistics/StadisticsPage';
@@ -57,6 +58,15 @@ if(domain == 'localhost'){
 		path: "/hatos-lecheros/public/cows",
 		name: "Cows",
 		component: CowsPage,
+		meta: {
+			auth: true
+		}
+	},
+
+	{
+		path: "/hatos-lecheros/public/medicines",
+		name: "Medicines",
+		component: MedicinesPage,
 		meta: {
 			auth: true
 		}
@@ -139,6 +149,15 @@ if(domain == 'localhost'){
 		path: "/cows",
 		name: "Cows",
 		component: CowsPage,
+		meta: {
+			auth: true
+		}
+	},
+
+	{
+		path: "/medicines",
+		name: "Medicines",
+		component: MedicinesPage,
 		meta: {
 			auth: true
 		}

@@ -1,11 +1,23 @@
 <template>
 	<admin-layout>
 		<template v-slot:header>
-			<h3>Todas las vacunas aplicadas</h3>
-
+			<h3>Listado de Medicinas</h3>
+			<button
+				class="btn btn-primary"
+				data-toggle="modal"
+				data-target="#medicines"
+				@click="
+					setTitle('Registrar nueva medicina'),
+						setAccion('create'),
+						setClear()
+				"
+			>
+				<font-awesome-icon icon="plus" />
+				Registrar nueva medicina
+			</button>
 			<!-- Modals -->
-			<modal :title="title" idTarget="vaccines" :accion="accion">
-				<form-vaccine></form-vaccine>
+			<modal :title="title" idTarget="medicines" :accion="accion">
+				<form-medicine></form-medicine>
 			</modal>
 		</template>
 
@@ -18,32 +30,21 @@
 					ref="table"
 				>
 					<table-column
-						show="name_employee"
-						label="Nombre del vacunador"
-						:filterable="true"
-					></table-column>
-					<table-column
-						show="code_cow"
-						label="Codigo de la res vacunada"
-					></table-column>
-					<table-column
 						show="name_medicine"
-						label="Vacuna"
+						label="Nombre"
 						:filterable="true"
-					>
-					</table-column>
+					></table-column>
 					<table-column
-						:formatter="FormDate" 
-						show="date" 
-						label="Fecha aplicada">
-					</table-column>
-					<table-column label="Cantidad"> 
-						<template slot-scope="row">
-							{{row.quantity}} mg
-						</template>
-					</table-column>
-					
-
+						:formatter="FormDate"
+						show="date"
+						label="Fecha de Vencimiento"
+						:filterable="true"
+					></table-column>
+					<table-column
+						:formatter="Defeated"
+						label="Estatus"
+						:filterable="true"
+					></table-column>
 					<table-column
 						label="Accion"
 						:sortable="false"
@@ -59,9 +60,9 @@
 							<button
 								class="btn btn-warning"
 								data-toggle="modal"
-								data-target="#vaccines"
+								data-target="#medicines"
 								@click="
-									setTitle('Editar Vacuna aplicada'),
+									setTitle('Editar Medicina'),
 										setAccion('edit'),
 										setData(row)
 								"
@@ -79,11 +80,11 @@
 <script>
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import Modal from "@/components/Modal.vue";
-import FormVaccine from "./FormVaccine";
+import FormMedicine from "./FormMedicine";
 import mutatorMixin from "@/mixins/mutator.js";
 
 export default {
-	name: "VaccinesPage",
+	name: "MedicinesPage",
 
 	mixins: [mutatorMixin],
 
@@ -91,14 +92,14 @@ export default {
 		return {
 			title: "",
 			accion: "",
-			fecthUrl: "/vaccines"
+			fecthUrl: "/medicines"
 		};
 	},
 
 	components: {
 		AdminLayout,
 		Modal,
-		FormVaccine
+		FormMedicine
 	},
 
 	methods: {
@@ -106,6 +107,12 @@ export default {
 			return value.split('-')[2]
 					+'/'+value.split('-')[1]
 					+'/'+value.split('-')[0]
+		},
+		Defeated(value, rowProperties){
+			let moment = require('moment')
+			let current = moment();
+			let defeated = moment(value.date);
+			return defeated>=current?'Vencida':'Disponible';
 		}
 	}
 };
