@@ -112,6 +112,8 @@ export default {
 			let moment = require('moment')
 			let current = moment();
 			let defeated = moment(value.date);
+			console.log(current)
+			console.log(defeated)
 			return defeated>=current?'Vencida':'Disponible';
 		}
 	}

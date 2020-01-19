@@ -8,11 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ExtractionController extends Controller {
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
 
 	public $extraction;
 
@@ -27,6 +22,20 @@ class ExtractionController extends Controller {
 		return response([
 			'status' => 'success',
 			'data' => $extractions,
+		], 200);
+	}
+
+	public function tableComponent(Request $request) #revisar
+	{
+		$extractions = Extraction::orderBy('created_at','desc')->paginate(10);
+		$data = Extraction::all();
+		return response([
+			'status' => 'success',
+			'data' => $data,
+			'pagination' => [
+                'total'         => $extractions->total(),
+                'current_page'  => $extractions->currentPage(),
+            ]
 		], 200);
 	}
 

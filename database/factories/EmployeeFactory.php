@@ -9,7 +9,7 @@ $factory->define(Employee::class, function (Faker $faker) {
     return [
 		'name'					=>	$faker->name,
 		'identificacion_number'	=>	$faker->numberBetween(1000000,9000000),
-		'date_birth' 			=>	Carbon::now()->format('Y-m-d'),
+		'date_birth' 			=>	$faker->dateTimeBetween('1980-01-01','2000-01-01'),
 		'position'				=>	$faker->randomElement([
                                         'worker','extraccion',
                                         'vaccination','supplies'

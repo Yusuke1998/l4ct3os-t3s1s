@@ -58,6 +58,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	//Extractions
 	Route::post('/extraction/register', 'ExtractionController@register');
 	Route::get('/extractions', 'ExtractionController@index');
+
+	Route::post('/extractions/table', 'ExtractionController@tableComponent');#revisar
+	
 	Route::post('/extractions/stadistics', 'ExtractionController@stadisticsExtractions');
 	Route::put('/extraction/update/{extraction}', 'ExtractionController@update');
 	Route::delete('/extraction/delete/{extraction}', 'ExtractionController@delete');

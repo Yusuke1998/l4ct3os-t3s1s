@@ -168,7 +168,9 @@ export default {
 	    	}else{
 	    		swal("Rango no definido!", {
 					icon: "warning"
-				});
+				}).then(value => {
+	    			this.$refs.chart3.refresh();
+				});;
 	    	}
 	    }
 	},

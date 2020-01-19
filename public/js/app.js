@@ -13784,6 +13784,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14147,6 +14157,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var current = moment();
       var defeated = moment(value.date);
+      console.log(current);
+      console.log(defeated);
       return defeated >= current ? 'Vencida' : 'Disponible';
     }
   }
@@ -14324,12 +14336,17 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     searchRange: function searchRange() {
+      var _this2 = this;
+
       if (this.range.from !== null && this.range.from !== "" && this.range.to !== null && this.range.to !== "") {
         this.fetchExtractionsStadistics(this.fetchExtractionsUrl);
       } else {
         swal("Rango no definido!", {
           icon: "warning"
+        }).then(function (value) {
+          _this2.$refs.chart3.refresh();
         });
+        ;
       }
     }
   },
@@ -87369,23 +87386,55 @@ var render = function() {
                     ref: "table",
                     attrs: {
                       data: _vm.fetchData,
-                      "sort-by": "id",
-                      "sort-order": "asc"
-                    }
+                      "sort-by": "date",
+                      "sort-order": "des"
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "tfoot",
+                        fn: function(ref) {
+                          var rows = ref.rows
+                          return [
+                            _c("tr", [
+                              _c("th", [_vm._v(" ")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v(" ")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Total Lts:")]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  _vm._s(
+                                    rows.reduce(function(sum, value) {
+                                      return sum + value.data.quantity
+                                    }, 0)
+                                  )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v(" ")])
+                            ])
+                          ]
+                        }
+                      }
+                    ])
                   },
                   [
                     _c("table-column", {
                       attrs: {
                         show: "name_employee",
                         label: "Nombre del ordeñador",
-                        filterable: true
+                        filterable: true,
+                        sortable: true
                       }
                     }),
                     _vm._v(" "),
                     _c("table-column", {
                       attrs: {
                         show: "code_cow",
-                        label: "Codigo de la res ordeñada"
+                        label: "Codigo de la res ordeñada",
+                        filterable: true,
+                        sortable: true
                       }
                     }),
                     _vm._v(" "),
@@ -87393,7 +87442,8 @@ var render = function() {
                       attrs: {
                         show: "date",
                         label: "Fecha de ordeño",
-                        filterable: true
+                        filterable: true,
+                        sortable: true
                       }
                     }),
                     _vm._v(" "),
@@ -87401,7 +87451,8 @@ var render = function() {
                       attrs: {
                         show: "quantity",
                         label: "Leche ordeñada LTS",
-                        filterable: true
+                        filterable: true,
+                        sortable: true
                       }
                     }),
                     _vm._v(" "),
@@ -110199,6 +110250,41 @@ var mutatorMixin = {
       }
 
       return fetchData;
+    }(),
+    fetchDataTable: function () {
+      var _fetchDataTable = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref) {
+        var page, filter, sort, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                page = _ref.page, filter = _ref.filter, sort = _ref.sort;
+                _context2.next = 3;
+                return axios.post(this.fecthTableUrl, {
+                  page: page,
+                  filter: filter,
+                  sort: sort
+                });
+
+              case 3:
+                response = _context2.sent;
+                return _context2.abrupt("return", response.data);
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchDataTable(_x) {
+        return _fetchDataTable.apply(this, arguments);
+      }
+
+      return fetchDataTable;
     }()
   }
 };

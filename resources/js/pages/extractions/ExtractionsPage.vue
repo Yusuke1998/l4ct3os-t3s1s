@@ -26,23 +26,26 @@
 			<div class="col-lg-12 col-md-10">
 				<table-component
 					:data="fetchData"
-					sort-by="id"
-					sort-order="asc"
-					ref="table"
-				>
+					sort-by="date"
+					sort-order="des"
+					ref="table">
 					<table-column
 						show="name_employee"
 						label="Nombre del ordeñador"
 						:filterable="true"
+						:sortable="true"
 					></table-column>
 					<table-column
 						show="code_cow"
 						label="Codigo de la res ordeñada"
+						:filterable="true"
+						:sortable="true"
 					></table-column>
 					<table-column
 						show="date"
 						label="Fecha de ordeño"
 						:filterable="true"
+						:sortable="true"
 					>
 					</table-column>
 
@@ -50,14 +53,14 @@
 						show="quantity"
 						label="Leche ordeñada LTS"
 						:filterable="true"
+						:sortable="true"
 					>
 					</table-column>
 
 					<table-column
 						label="Accion"
 						:sortable="false"
-						:filterable="false"
-					>
+						:filterable="false">
 						<template slot-scope="row">
 							<button
 								class="btn btn-sm btn-danger"
@@ -72,13 +75,20 @@
 								@click="
 									setTitle('Editar Extraccion'),
 										setAccion('edit'),
-										setData(row)
-								"
-							>
+										setData(row)">
 								Editar
 							</button>
 						</template>
 					</table-column>
+					<template slot="tfoot" slot-scope="{ rows }">
+				        <tr>
+				            <th>&nbsp;</th>
+				            <th>&nbsp;</th>
+				            <th>Total Lts:</th>
+				            <th>{{ rows.reduce((sum, value) => { return sum + value.data.quantity; }, 0) }}</th>
+				            <th>&nbsp;</th>
+				        </tr>
+				    </template>
 				</table-component>
 			</div>
 		</template>

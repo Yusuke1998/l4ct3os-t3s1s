@@ -12,11 +12,11 @@ class DatabaseSeeder extends Seeder {
 
 	public function run() {
 		$this->call(UsersTableSeeder::class);
-		factory(User::class,20)->create();
-        factory(Cow::class,20)->create();
-        factory(Medicine::class,20)->create();
-        factory(Employee::class,20)->create();
-        factory(Vaccine::class,20)->create();
-        factory(Extraction::class,20)->create();
+		factory(User::class,4)->create();
+        factory(Cow::class,150)->create();
+        factory(Medicine::class,10)->create();
+        factory(Employee::class,30)->create();
+        factory(Vaccine::class,80)->create();
+        factory(Extraction::class,200)->create();
 	}
 }

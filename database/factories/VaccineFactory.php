@@ -12,8 +12,14 @@ $factory->define(Vaccine::class, function (Faker $faker) {
     return [
 		'employee_id'	=> Employee::all()->random()->id,
 		'medicine_id'	=> Medicine::all()->random(),
-		'date'			=> Carbon::now()->format('Y-m-d'),
-		'quantity'		=> $faker->numberBetween(100,1000),
+		'date'			=> $faker->dateTimeBetween('01-01-2019'),
+		'quantity'		=> $faker->randomElement([
+                                        '100','200',
+                                        '300','400',
+                                        '500','600',
+                                        '700','800',
+                                        '900','1000'
+                                    ]),
 		'cow_id' 		=> Cow::all()->random()->id
     ];
 });
