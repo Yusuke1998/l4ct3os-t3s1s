@@ -19,11 +19,6 @@ class VaccineController extends Controller {
 
 	}
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
 	public function index() {
 
 		$vaccines = Vaccine::all();
@@ -35,22 +30,13 @@ class VaccineController extends Controller {
 
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
 	public function create() {
 		//
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
 	public function register(VaccineStoreRequest $request) {
+
+		dd($request->all());
 
 		$vaccine = new Vaccine();
 		$vaccine->create($request->except('_token'));
@@ -62,34 +48,15 @@ class VaccineController extends Controller {
 
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  \App\Vaccine  $vaccine
-	 * @return \Illuminate\Http\Response
-	 */
 	public function show(Vaccine $vaccine) {
 		//
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  \App\Vaccine  $vaccine
-	 * @return \Illuminate\Http\Response
-	 */
 	public function edit(Vaccine $vaccine) {
 		//
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Vaccine  $vaccine
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, Vaccine $vaccine) {
+	public function update(VaccineStoreRequest $request, Vaccine $vaccine) {
 		$vaccine->update($request->all());
 
 		return response([
@@ -99,12 +66,6 @@ class VaccineController extends Controller {
 
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Vaccine  $vaccine
-	 * @return \Illuminate\Http\Response
-	 */
 	public function delete(Vaccine $vaccine) {
 		$vaccine->delete();
 

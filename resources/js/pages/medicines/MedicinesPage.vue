@@ -9,9 +9,7 @@
 				@click="
 					setTitle('Registrar nueva medicina'),
 						setAccion('create'),
-						setClear()
-				"
-			>
+						setClear()">
 				<font-awesome-icon icon="plus" />
 				Registrar nueva medicina
 			</button>
@@ -110,11 +108,9 @@ export default {
 		},
 		Defeated(value, rowProperties){
 			let moment = require('moment')
-			let current = moment();
-			let defeated = moment(value.date);
-			console.log(current)
-			console.log(defeated)
-			return defeated>=current?'Vencida':'Disponible';
+			let defeated = moment(value.date).format("YYYY-MM-DD");
+			let current = moment().format("YYYY-MM-DD");
+			return defeated<=current?'Vencida':'Disponible';
 		}
 	}
 };

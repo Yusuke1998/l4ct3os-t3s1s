@@ -31,14 +31,17 @@ trait ExtractionMethod {
 		}
 		return $registers;
 	}
+
+
+	/*
 	
 	public function getExtractionsForRange($request) {
 		$registers = [];
 		$months = [
-				'01'=>'Enero', '02'=>'Febrero', '03'=>'Marzo', 
-				'04'=>'Abril', '05'=>'Mayo', '06'=>'Junio', 
-				'07'=>'Julio', '08'=>'Agosto', '09'=>'Septiembre',
-				'10'=>'Octubre', '11'=>'Noviembre', '12'=>'Diciembre'
+			'01'=>'Enero', '02'=>'Febrero', '03'=>'Marzo', 
+			'04'=>'Abril', '05'=>'Mayo', '06'=>'Junio', 
+			'07'=>'Julio', '08'=>'Agosto', '09'=>'Septiembre',
+			'10'=>'Octubre', '11'=>'Noviembre', '12'=>'Diciembre'
 		];
 		if (!is_null($request->range['from'])&&!is_null($request->range['to'])) {
 			$monthExtractions = $this::whereBetween('date', [
@@ -52,6 +55,53 @@ trait ExtractionMethod {
 			return $registers;
 		}
 		return $registers;
+	}
+
+	*/
+
+	public function getExtractionsForRange($request) {
+		$registers = [];
+		$years=[];
+		$months = [
+			'01'=>'Enero', '02'=>'Febrero', '03'=>'Marzo', 
+			'04'=>'Abril', '05'=>'Mayo', '06'=>'Junio', 
+			'07'=>'Julio', '08'=>'Agosto', '09'=>'Septiembre',
+			'10'=>'Octubre', '11'=>'Noviembre', '12'=>'Diciembre'
+		];
+		// $months = [
+		// 	'01'=>'01', '02'=>'02', '03'=>'03', 
+		// 	'04'=>'04', '05'=>'05', '06'=>'06', 
+		// 	'07'=>'07', '08'=>'08', '09'=>'09',
+		// 	'10'=>'10', '11'=>'11', '12'=>'12'
+		// ];
+		if (!is_null($request->range['from'])&&!is_null($request->range['to'])) {
+			$monthExtractions = $this::whereBetween('date', [
+				$request->range['from'], $request->range['to']
+			])->get();
+			foreach ($monthExtractions as $extraction) {
+				$date = new Carbon($extraction->date);
+				if (!in_array($date->year,$years)) {
+					$years[$date->year]=[];
+				}
+			}
+			foreach ($years as $year => $value) {
+				$FullYear = $monthExtractions->filter(function($date) use ($year) {
+					$newDate = new Carbon($date->date);
+					if ($newDate->year == $year) {
+						return $date;
+					}
+				});
+				foreach ($FullYear->all() as $extraction) {
+					$date = new Carbon($extraction->date);
+					$value = $registers[$months[$date->format('m')]] ?? 0;
+					$registers[$months[$date->format('m')]] = $value + $extraction->quantity;
+					$years[$year]=$registers;
+				}
+				$registers=[];
+			}
+			return json_encode($years);
+		}
+		return $years;
 	}
 }
 

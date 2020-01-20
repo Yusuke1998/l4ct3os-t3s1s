@@ -59,21 +59,10 @@ class ExtractionController extends Controller {
 
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
 	public function create() {
 		//
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
 	public function register(ExtractionStoreRequest $request) {
 		$extraction = new Extraction();
 		$extraction->create($request->except('_token'));
@@ -84,33 +73,14 @@ class ExtractionController extends Controller {
 		], 200);
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  \App\Models\Extraction\Extraction  $extraction
-	 * @return \Illuminate\Http\Response
-	 */
 	public function show(Extraction $extraction) {
 		//
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  \App\Models\Extraction\Extraction  $extraction
-	 * @return \Illuminate\Http\Response
-	 */
 	public function edit(Extraction $extraction) {
 		//
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Models\Extraction\Extraction  $extraction
-	 * @return \Illuminate\Http\Response
-	 */
 	public function update(ExtractionStoreRequest $request, Extraction $extraction) {
 		$extraction->update($request->all());
 
@@ -120,12 +90,6 @@ class ExtractionController extends Controller {
 		], 200);
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Models\Extraction\Extraction  $extraction
-	 * @return \Illuminate\Http\Response
-	 */
 	public function delete(Extraction $extraction) {
 		$extraction->delete();
 

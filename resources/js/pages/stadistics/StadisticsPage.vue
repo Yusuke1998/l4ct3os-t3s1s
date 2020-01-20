@@ -94,11 +94,13 @@ export default {
 			monthData: null,
 			rangeData: null,
 			range:{
-				from:null,
-				to:null
+				from:'2017-01-01',
+				to:'2020-01-19'
 			},
 		    options: { responsive: true, maintainAspectRatio: false },
 			fetchExtractionsUrl: "/extractions/stadistics",
+
+			prueba:null
 	}),
 
 	components: {
@@ -142,16 +144,31 @@ export default {
 		},
 
 		setRangeData(data) {
-	        this.rangeData = {
-	          labels: Object.keys(data),
-	          datasets: [
-	            {
-	              label: "Litros del mes",
-	              backgroundColor: 'yellow',
-	              data: Object.values(data)
-	            }
-	          ]
-	        };
+			let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+			this.rangeData={
+				labels:meses,
+				datasets:[]
+			}
+			let obj = JSON.parse(data);
+			Object.keys(obj).forEach((year,key)=>{
+				this.rangeData.datasets.push({
+			        label: 'Extracciones del '+year,
+			    	data: [
+		    			(obj[year][meses[0]])?(obj[year][meses[0]]):0,
+		    			(obj[year][meses[1]])?(obj[year][meses[1]]):0,
+		    			(obj[year][meses[2]])?(obj[year][meses[2]]):0,
+		    			(obj[year][meses[3]])?(obj[year][meses[3]]):0,
+		    			(obj[year][meses[4]])?(obj[year][meses[4]]):0,
+		    			(obj[year][meses[5]])?(obj[year][meses[5]]):0,
+		    			(obj[year][meses[6]])?(obj[year][meses[6]]):0,
+		    			(obj[year][meses[7]])?(obj[year][meses[7]]):0,
+		    			(obj[year][meses[8]])?(obj[year][meses[8]]):0,
+		    			(obj[year][meses[9]])?(obj[year][meses[9]]):0,
+		    			(obj[year][meses[10]])?(obj[year][meses[10]]):0,
+		    			(obj[year][meses[11]])?(obj[year][meses[11]]):0
+			    	]
+			    })
+			});
 		},
 
 	    refreshChart(id){
@@ -165,12 +182,9 @@ export default {
 	    searchRange(){
 	    	if (this.range.from!==null && this.range.from!=="" && this.range.to!==null && this.range.to!=="") {
 				this.fetchExtractionsStadistics(this.fetchExtractionsUrl);
+				this.$alertify.success('Cargando grafica con exito!')
 	    	}else{
-	    		swal("Rango no definido!", {
-					icon: "warning"
-				}).then(value => {
-	    			this.$refs.chart3.refresh();
-				});;
+				this.$alertify.warning('Debes definir un rango!')
 	    	}
 	    }
 	},

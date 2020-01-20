@@ -39,8 +39,13 @@ const crudMixin = {
 						utils.reload();
 					});
 				})
-				.catch(error => {
-					swal("Error", "Error al crear", "error");
+				.catch(errors => {
+					if (status = 204)
+	                {
+	                    Object.values(errors.response.data.errors).forEach((element,indx) => {
+	                        this.$alertify.error(element.toString())
+	                    });
+	                }
 				});
 		},
 
@@ -59,8 +64,13 @@ const crudMixin = {
 						utils.reload();
 					});
 				})
-				.catch(error => {
-					swal("Error", "Error al editar", "error");
+				.catch(errors => {
+					if (status = 204)
+	                {
+	                    Object.values(errors.response.data.errors).forEach((element,indx) => {
+	                        this.$alertify.error(element.toString())
+	                    });
+	                }
 				});
 		},
 

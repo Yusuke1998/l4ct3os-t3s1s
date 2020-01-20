@@ -15,6 +15,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import  TableComponentPlugin, { TableComponent, TableColumn } from "vue-table-component";
 import 'vue-table-component/docs/table-component.css';
+import 'alertifyjs/build/css/alertify.min.css';
+import VueAlertify from 'vue-alertify';
 
 
 require('./bootstrap');
@@ -23,6 +25,13 @@ window.Vue = require('vue');
 Vue.use(eventBus)
 Vue.use(VueRouter);
 Vue.use(VueAxios,axios);
+Vue.use(VueAlertify,{
+    notifier: {
+        delay: 5,
+        position: 'top-right',
+        closeButton: true,
+    }
+});
 
 
 const protocol = window.location.protocol;

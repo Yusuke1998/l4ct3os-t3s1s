@@ -11,7 +11,7 @@ use App\Models\Employee\Employee;
 $factory->define(Vaccine::class, function (Faker $faker) {
     return [
 		'employee_id'	=> Employee::all()->random()->id,
-		'medicine_id'	=> Medicine::all()->random(),
+		'medicine_id'	=> Medicine::all()->random()->id,
 		'date'			=> $faker->dateTimeBetween('01-01-2019'),
 		'quantity'		=> $faker->randomElement([
                                         '100','200',

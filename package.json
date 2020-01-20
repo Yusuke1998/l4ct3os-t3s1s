@@ -34,8 +34,10 @@
         "laravel-mix-alias": "^1.0.2",
         "moment": "^2.24.0",
         "sweetalert": "^2.1.2",
+        "vue-alertify": "^1.1.0",
         "vue-axios": "^2.1.5",
         "vue-chartjs": "^3.5.0",
-        "vue-table-component": "^1.9.2"
+        "vue-table-component": "^1.9.2",
+        "vuejs-datepicker": "^1.6.2"
     }
 }

@@ -31,7 +31,7 @@ class MedicineController extends Controller
 
 	}
 
-	public function update(Request $request, Medicine $medicine) {
+	public function update(MedicineStoreRequest $request, Medicine $medicine) {
 		$medicine->update($request->all());
 
 		return response([

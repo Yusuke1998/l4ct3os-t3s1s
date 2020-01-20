@@ -13,10 +13,12 @@ class DatabaseSeeder extends Seeder {
 	public function run() {
 		$this->call(UsersTableSeeder::class);
 		factory(User::class,4)->create();
-        factory(Cow::class,150)->create();
+        factory(Cow::class,100)->create();
         factory(Medicine::class,10)->create();
         factory(Employee::class,30)->create();
-        factory(Vaccine::class,80)->create();
-        factory(Extraction::class,200)->create();
+		$this->call(VaccineTableSeeder::class);
+		$this->call(ExtraccionTableSeeder::class);
+        factory(Vaccine::class,50)->create();
+        factory(Extraction::class,105)->create();
 	}
 }
