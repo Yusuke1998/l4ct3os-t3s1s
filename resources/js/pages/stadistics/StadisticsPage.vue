@@ -95,7 +95,7 @@ export default {
 			rangeData: null,
 			range:{
 				from:'2017-01-01',
-				to:'2020-01-19'
+				to:'2020-01-21'
 			},
 		    options: { responsive: true, maintainAspectRatio: false },
 			fetchExtractionsUrl: "/extractions/stadistics",
@@ -118,26 +118,42 @@ export default {
 		},
 
 		setWeekData(data) {
+			let dias = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
 	        this.weekData = {
-	          labels: Object.keys(data),
+	          labels: dias,
 	          datasets: [
 	            {
 	              label: "Litros de la semana",
 	              backgroundColor: 'green',
-	              data: Object.values(data)
+	              data: [
+	              	((data[dias[0]]))?(data[dias[0]]):0,
+	              	((data[dias[1]]))?(data[dias[1]]):0,
+	              	((data[dias[2]]))?(data[dias[2]]):0,
+	              	((data[dias[3]]))?(data[dias[3]]):0,
+	              	((data[dias[4]]))?(data[dias[4]]):0,
+	              	((data[dias[5]]))?(data[dias[5]]):0,
+	              	((data[dias[6]]))?(data[dias[6]]):0
+	              ]
 	            }
 	          ]
 	        };
 	    },
 
 		setMonthData(data) {
+			let semanas = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5'];
 	        this.monthData = {
-	          labels: Object.keys(data),
+	          labels: semanas,
 	          datasets: [
 	            {
 	              label: "Litros de la semana",
 	              backgroundColor: 'blue',
-	              data: Object.values(data)
+	              data: [
+					((data[semanas[0]]))?(data[semanas[0]]):0,
+					((data[semanas[1]]))?(data[semanas[1]]):0,
+					((data[semanas[2]]))?(data[semanas[2]]):0,
+					((data[semanas[3]]))?(data[semanas[3]]):0,
+					((data[semanas[4]]))?(data[semanas[4]]):0
+	              ]
 	            }
 	          ]
 	        };
