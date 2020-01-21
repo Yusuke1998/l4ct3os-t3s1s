@@ -34,6 +34,16 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::put('/employee/update/{employee}', 'EmployeeController@update');
 	Route::delete('/employee/delete/{employee}', 'EmployeeController@delete');
 
+	//Payments
+	Route::get('/payments/{status?}', 'PaymentController@index');
+	Route::get('/payment/{code?}', 'PaymentController@code');
+	Route::post('/payment/register', 'PaymentController@register');
+	Route::put('/payment/update/{payment}', 'PaymentController@update');
+	Route::delete('/payment/delete/{payment}', 'PaymentController@delete');
+
+	//Account
+	Route::get('/accounts/{employee_id}','AccountController@index');
+
 	//Cows
 	Route::post('/cow/register', 'CowController@register');
 	Route::get('/cows/total', 'CowController@countTotal');

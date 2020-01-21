@@ -16,6 +16,17 @@
 				<li class="nav-item">
 					<router-link
 						tag="a"
+						:to="{ name: 'Payments' }"
+						class="nav-link"
+					>
+						<font-awesome-icon icon="handshake" />
+
+						Pagos
+					</router-link>
+				</li>
+				<li class="nav-item">
+					<router-link
+						tag="a"
 						:to="{ name: 'Cows' }"
 						class="nav-link"
 					>
