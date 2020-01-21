@@ -19,114 +19,86 @@
 				placeholder="Seleccionar"
 				v-model="form.employee_id"
 				@change="getAccounts"
+				@createdAccount="getAccounts"
 				required>
-				<option value="" selected=true> Seleccionar</option>
+				<option value="0" selected=true> Seleccionar</option>
 				<option 
 					v-for="employee in employees"
 					:key="employee.id" 
 					:value="employee.id">{{ employee.name }} {{ employee.position }}</option>
 			</select>
 		</div>
+		<template v-show="form.employee_id>0 && form.employee_id!==''">
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1"
+						>Cuenta</span
+					>
+				</div>
+				<p v-if="accounts.length==0"
+					class="form-control"
+					aria-describedby="basic-addon4">
+					<b>No tiene cuenta registrada</b>
+				</p>
+				<select v-else
+					:disabled="accounts.length==0"
+					class="form-control"
+					id="exampleFormControlSelect2"
+					aria-describedby="basic-addon4"
+					placeholder="Seleccionar"
+					v-model="form.account_id"
+					required>
+					<option value="0" selected=true> Seleccionar</option>
+					<option 
+						v-for="account in accounts" 
+						:key="account.id" 
+						:value="account.id">{{ account.name_bank }} {{ account.number }}</option>
+				</select>
 
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon1"
-					>Cuenta</span
-				>
-			</div>
-			<p v-if="accounts.length==0"
-				class="form-control"
-				aria-describedby="basic-addon4">
-				<b>No tiene cuenta registrada</b>
-			</p>
-			<select v-else
-				:disabled="accounts.length==0"
-				class="form-control"
-				id="exampleFormControlSelect2"
-				aria-describedby="basic-addon4"
-				placeholder="Seleccionar"
-				v-model="form.account_id"
-				required>
-				<option value="" selected=true> Seleccionar</option>
-				<option 
-					v-for="account in accounts" 
-					:key="account.id" 
-					:value="account.id">{{ account.name_bank }} {{ account.number }}</option>
-			</select>
+				<button 
+					type="button" 
+					class="btn btn-primary" 
+					@click="modalMy('modalAccounts',1)">
+					<font-awesome-icon prefix="fa" icon="university"/> Crear
+				</button>
 
-			<button 
-				class="btn btn-primary" 
-				@click="modalHide('modalAccounts',1)">
-				<font-awesome-icon icon="bank"/>Crear
-			</button>
-
-			<!-- Modal -->
-			<div
-				class="modal fade"
-				id="modalAccounts"
-				tabindex="-1"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">
-								Crear Cuenta
-							</h5>
-							<button
-								type="button"
-								class="close"
-								@click="modalHide('modalAccounts',0)"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form-account></form-account>
-						</div>
-						<div class="modal-footer">
-							<button
-								type="button"
-								class="btn btn-secondary"
-								@click="modalHide('modalAccounts',0)">
-								Cerrar
-							</button>
-							<button type="button" class="btn btn-primary">
-								Guardar
-							</button>
-						</div>
+				<!-- Modal -->
+				<div class="modal fade"
+					id="modalAccounts"
+					tabindex="-1"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<form-account :employee="form.employee_id"></form-account>
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon1">Monto</span>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">Monto</span>
+				</div>
+				<input
+					type="number"
+					:disabled="form.account_id==0||form.account_id==''"
+					class="form-control"
+					placeholder="Monto a pagar"
+					aria-label="Monto"
+					aria-describedby="basic-addon1"
+					v-model="form.amount"
+					required
+				/>
 			</div>
-			<input
-				type="number"
-				:disabled="form.account_id==0||form.account_id==''"
-				class="form-control"
-				placeholder="Monto a pagar"
-				aria-label="Monto"
-				aria-describedby="basic-addon1"
-				v-model="form.amount"
-				required
-			/>
-		</div>
-
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon2">Descripcion</span>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon2">Descripcion</span>
+				</div>
+				<textarea 
+					:disabled="form.amount==''"
+					class="form-control"
+					aria-label="Descripcion"
+					aria-describedby="basic-addon2"
+					v-model="form.description"></textarea>
 			</div>
-			<textarea 
-				:disabled="form.amount==''"
-				class="form-control"
-				aria-label="Descripcion"
-				aria-describedby="basic-addon2"
-				v-model="form.description"></textarea>
-		</div>
-
+		</template>
 	</form>
 </template>
 
@@ -143,8 +115,8 @@ export default {
 
 	data() {
 		return {
-			titleB: "",
-			accionB: "",
+			title: "",
+			accion: "",
 
 			form: {
 				id: "",
@@ -191,7 +163,7 @@ export default {
 			});
 		},
 
-		modalHide(id="modal",bool)
+		modalMy(id="modal",bool)
 		{
 			if (bool) {
 				$("#"+id).modal('show')

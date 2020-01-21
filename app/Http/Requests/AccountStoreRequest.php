@@ -18,13 +18,23 @@ class AccountStoreRequest extends FormRequest
         if ($id) {
             return [
                 'name_bank' => 'required|string',
+                'number'    => 'required|number',
             ];
 
         } else {
             return [
                 'name_bank' => 'required|string',
+                'number'    => 'required',
             ];
 
         }
+    }
+
+    public function messages() {
+
+        return [
+            'name_bank.required' => 'El nombre del banco es obligatorio',
+            'number.required'    => 'El numero de cuenta es obligatorio',
+        ];
     }
 }

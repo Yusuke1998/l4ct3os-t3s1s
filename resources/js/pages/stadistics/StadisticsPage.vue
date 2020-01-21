@@ -86,21 +86,19 @@ import AdminLayout from "@/layouts/AdminLayout.vue";
 import Chart from "@/components/Chart.vue";
 
 export default {
+
 	name: "StadisticsPage",
 
 	data: () =>({
-
 			weekData: null,
 			monthData: null,
 			rangeData: null,
 			range:{
-				from:'2017-01-01',
-				to:'2020-01-21'
+				from:null,
+				to:null
 			},
 		    options: { responsive: true, maintainAspectRatio: false },
 			fetchExtractionsUrl: "/extractions/stadistics",
-
-			prueba:null
 	}),
 
 	components: {
@@ -202,15 +200,20 @@ export default {
 	    	}else{
 				this.$alertify.warning('Debes definir un rango!')
 	    	}
+	    },
+
+	    setDate(){
+	    	let moment = require('moment');
+			this.range.to = moment().format("YYYY-MM-DD");
+			this.range.from = moment().subtract(3, 'months').format("YYYY-MM-DD");
 	    }
 	},
 
 	created() {
+		this.setDate()
 		this.fetchExtractionsStadistics(this.fetchExtractionsUrl);
-	},
-
-	computed: {
 	}
+	
 };
 </script>
 

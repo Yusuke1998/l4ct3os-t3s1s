@@ -6,6 +6,7 @@
 				class="btn btn-primary"
 				data-toggle="modal"
 				data-target="#payments"
+				type="button"
 				@click="
 					setTitle('Crear Pago'), setAccion('create'), setClear()
 				">

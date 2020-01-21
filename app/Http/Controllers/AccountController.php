@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account\Account;
 use App\Models\Employee\Employee;
 use Illuminate\Http\Request;
-use App\Http\Requests\EmployeeStoreRequest;
+use App\Http\Requests\AccountStoreRequest;
 
 class AccountController extends Controller
 {
@@ -18,9 +18,15 @@ class AccountController extends Controller
 		], 200);
     }
 
-    public function register($employee_id)
+    public function register(AccountStoreRequest $request)
     {
-    	$employee = Employee::find($employee_id);
-    	return $employee;
+    	$employee = Employee::findOrFail($request->employee_id);
+        $employee
+            ->accounts()
+            ->create($request->all());
+        return response([
+            'status' => 'success',
+            'data' => $employee,
+        ], 200);
     }
 }

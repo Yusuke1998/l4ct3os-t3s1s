@@ -43,6 +43,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 	//Account
 	Route::get('/accounts/{employee_id}','AccountController@index');
+	Route::post('/account/register','AccountController@register');
 
 	//Cows
 	Route::post('/cow/register', 'CowController@register');
