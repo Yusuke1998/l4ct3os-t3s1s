@@ -93,7 +93,7 @@ export default {
 				.then(resp=>{
 					this.$alertify.warning('Registro Exitoso!')
 					this.dataBlank()
-					this.$emit('createdAccount',true)
+					this.$bus.$emit('createdAccount',true)
 				})
 				.catch(errors => {
                     Object.values(errors.response.data.errors).forEach((element,indx) => {

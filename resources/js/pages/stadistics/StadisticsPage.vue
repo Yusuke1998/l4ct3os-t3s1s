@@ -20,7 +20,7 @@
 			<div class="tab-content" id="myTabContent">
 			  <div class="tab-pane fade show active" id="week" role="tabpanel" aria-labelledby="week-tab">
 				<div class="row">
-					<div class="col-md-8 offset-2">
+					<div class="col-md-10 offset-1">
 						<br>
 						<h5 class="text-center"> Extraccion de leche de esta semana por litro</h5>
 						<chart 
@@ -32,7 +32,7 @@
 
 			  <div class="tab-pane fade" id="month" role="tabpanel" aria-labelledby="month-tab">
 				<div class="row">
-					<div class="col-md-8 offset-2">
+					<div class="col-md-10 offset-1">
 						<br>
 						<h5 class="text-center"> Extraccion de leche de este mes por litro</h5>
 						<chart 
@@ -45,7 +45,7 @@
 
 			  <div class="tab-pane fade" id="range" role="tabpanel" aria-labelledby="range-tab">
 				<div class="row">
-					<div class="col-md-8 offset-2">
+					<div class="col-md-10 offset-1">
 						<br>
 						<h5 class="text-center"> Extraccion de leche por litro, rango de fecha.</h5>
 						<div class="row">
@@ -159,6 +159,7 @@ export default {
 
 		setRangeData(data) {
 			let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+			let color = ['pink','purple','yellow','red','gray','blue','green'];
 			this.rangeData={
 				labels:meses,
 				datasets:[]
@@ -167,6 +168,7 @@ export default {
 			Object.keys(obj).forEach((year,key)=>{
 				this.rangeData.datasets.push({
 			        label: 'Extracciones del '+year,
+	              	backgroundColor: color[key],
 			    	data: [
 		    			(obj[year][meses[0]])?(obj[year][meses[0]]):0,
 		    			(obj[year][meses[1]])?(obj[year][meses[1]]):0,

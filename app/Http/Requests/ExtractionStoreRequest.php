@@ -5,32 +5,29 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ExtractionStoreRequest extends FormRequest {
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
+	
 	public function authorize() {
 		return true;
 	}
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
 	public function rules() {
 
 		$id = get_model_id($this, 'extraction');
 
 		if ($id) {
 			return [
-				'quantity' => 'required|between:0,99999.99',
+				'quantity' 		=> 'required|between:0,99999.99',
+				'employee_id' 	=> 'required',
+				'cow_id' 		=> 'required',
+				'date' 			=> 'required',
 			];
 
 		} else {
 			return [
 				'quantity' => 'required|between:0,99999.99',
+				'employee_id' 	=> 'required',
+				'cow_id' 		=> 'required',
+				'date' 			=> 'required',
 			];
 
 		}
@@ -39,7 +36,10 @@ class ExtractionStoreRequest extends FormRequest {
 	public function messages() {
 
 		return [
-			'quantity.required' => 'La cantidad es obligatoria',
+			'quantity.required' 	=> 'La cantidad es obligatoria',
+			'employee_id.required' 	=> 'El ordeñador es obligatorio',
+			'cow_id.required' 		=> 'La res es obligatoria',
+			'date.required' 		=> 'La fecha es obligatoria',
 
 		];
 	}}

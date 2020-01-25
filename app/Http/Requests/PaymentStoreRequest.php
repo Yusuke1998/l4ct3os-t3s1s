@@ -6,25 +6,37 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PaymentStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
+    public function authorize() {
+        return true;
+    }
+    
+    public function rules() {
+
+        $id = get_model_id($this, 'payment');
+
+        if ($id) {
+            return [
+                'amount'        => 'required',
+                'account_id'    => 'required',
+                'employee_id'   => 'required',
+            ];
+
+        } else {
+            return [
+                'amount'        => 'required',
+                'account_id'    => 'required',
+                'employee_id'   => 'required',
+            ];
+
+        }
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
+    public function messages() {
+
         return [
-            //
+            'amount.required'       => 'El monto es obligatorio',
+            'employee_id.required'  => 'El trabajador es obligatorio',
+            'account_id.required'   => 'La cuenta es obligatoria',
         ];
     }
 }

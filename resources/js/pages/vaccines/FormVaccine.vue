@@ -118,7 +118,7 @@ export default {
 			createUrl: "/vaccine/register",
 			id: "vaccines",
 			fecthEmployeesUrl: `/employees/vaccination`,
-			fecthMedicinesUrl: `/medicines`
+			fecthMedicinesUrl: `/medicines/good`
 		};
 	},
 

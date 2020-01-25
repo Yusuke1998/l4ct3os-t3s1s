@@ -10,7 +10,7 @@ class ExtraccionTableSeeder extends Seeder
 {
     public function run()
     {
-    	for ($i=0; $i <= 5; $i++) { 
+    	for ($i=1; $i <= 15; $i++) { 
 	        Extraction::create([
 	        	'employee_id'	=> Employee::all()->random()->id,
 				'date'			=> Carbon::now()->format('Y-m-d'),

@@ -8,15 +8,12 @@ use Illuminate\Http\Request;
 
 class MedicineController extends Controller
 {
-    public function index() {
-
-		$medicines = Medicine::all();
-
+    public function index($good=null) {
+    	$medicines = (!isset($good))?Medicine::all():Medicine::good()->get();
 		return response([
 			'status' => 'success',
 			'data' => $medicines,
 		], 200);
-
 	}
 
 	public function register(MedicineStoreRequest $request) {

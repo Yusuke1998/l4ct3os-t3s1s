@@ -55,7 +55,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 	//medicines
 	Route::post('/medicine/register', 'MedicineController@register');
-	Route::get('/medicines', 'MedicineController@index');
+	Route::get('/medicines/{good?}', 'MedicineController@index');
 	Route::put('/medicine/update/{medicine}', 'MedicineController@update');
 	Route::delete('/medicine/delete/{medicine}', 'MedicineController@delete');
 

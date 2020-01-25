@@ -19,9 +19,8 @@
 				placeholder="Seleccionar"
 				v-model="form.employee_id"
 				@change="getAccounts"
-				@createdAccount="getAccounts"
 				required>
-				<option value="0" selected=true> Seleccionar</option>
+				<option value="0" selected> Seleccionar</option>
 				<option 
 					v-for="employee in employees"
 					:key="employee.id" 
@@ -48,7 +47,7 @@
 					placeholder="Seleccionar"
 					v-model="form.account_id"
 					required>
-					<option value="0" selected=true> Seleccionar</option>
+					<option value="0" selected> Seleccionar</option>
 					<option 
 						v-for="account in accounts" 
 						:key="account.id" 
@@ -142,6 +141,11 @@ export default {
 
 	created() {
 		this.fetchEmployees(this.fecthEmployeesUrl);
+		this.$bus.$on('createdAccount',(bank)=>{
+			if(bank){
+				this.getAccounts()
+			}
+		})
 	},
 
 	methods: {
@@ -170,6 +174,11 @@ export default {
 			}else{
 				$("#"+id).modal('hide')
 			}
+		},
+
+		storePayment()
+		{
+			
 		}
 	},
 

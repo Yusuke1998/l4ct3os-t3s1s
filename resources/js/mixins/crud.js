@@ -31,21 +31,24 @@ const crudMixin = {
 			this.axios
 				.post(url, this.form)
 				.then(response => {
+					// swal(
+					// 	"Exelente",
+					// 	"Se realizo registro correctamente",
+					// 	"success"
+					// ).then(value => {
+					// 	utils.reload();
+					// });
 					swal(
 						"Exelente",
 						"Se realizo registro correctamente",
 						"success"
-					).then(value => {
-						utils.reload();
-					});
+					);
+					utils.reload();
 				})
 				.catch(errors => {
-					if (status = 204)
-	                {
-	                    Object.values(errors.response.data.errors).forEach((element,indx) => {
-	                        this.$alertify.error(element.toString())
-	                    });
-	                }
+	                Object.values(errors.response.data.errors).forEach((element,indx) => {
+	                	this.$alertify.error(element.toString())
+	                });
 				});
 		},
 
@@ -56,21 +59,24 @@ const crudMixin = {
 			this.axios
 				.put(endpoint, this.form)
 				.then(response => {
+					// swal(
+					// 	"Exelente",
+					// 	"registro modificado correctamente",
+					// 	"success"
+					// ).then(value => {
+					// 	utils.reload();
+					// });
 					swal(
 						"Exelente",
 						"registro modificado correctamente",
 						"success"
-					).then(value => {
-						utils.reload();
-					});
+					);
+					utils.reload();
 				})
 				.catch(errors => {
-					if (status = 204)
-	                {
-	                    Object.values(errors.response.data.errors).forEach((element,indx) => {
-	                        this.$alertify.error(element.toString())
-	                    });
-	                }
+	                Object.values(errors.response.data.errors).forEach((element,indx) => {
+	                	this.$alertify.error(element.toString())
+	                });
 				});
 		},
 
@@ -89,11 +95,15 @@ const crudMixin = {
 					axios
 						.delete(endpoint)
 						.then(() => {
+							// swal("Tu registro ha sido borrado!", {
+							// 	icon: "success"
+							// }).then(value => {
+							// 	utils.reload();
+							// });
 							swal("Tu registro ha sido borrado!", {
 								icon: "success"
-							}).then(value => {
-								utils.reload();
 							});
+							utils.reload();
 						})
 						.catch(error => {
 							swal("Tu registro no pudo ser borrado!", {
