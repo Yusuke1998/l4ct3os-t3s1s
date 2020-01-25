@@ -12,6 +12,7 @@ class CreatePaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('code')->unique();
             $table->float('amount');
+            $table->date('date')->default(date('Y-m-d'));
             $table->enum('status',
                 ['realizado','pendiente']
             )->default('pendiente');

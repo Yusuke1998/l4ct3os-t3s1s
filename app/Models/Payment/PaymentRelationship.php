@@ -4,6 +4,7 @@ namespace App\Models\Payment;
 
 use App\Models\Employee\Employee;
 use App\Models\Account\Account;
+use App\Models\User\User;
 
 trait PaymentRelationship {
 
@@ -13,6 +14,10 @@ trait PaymentRelationship {
 
 	public function account(){
 		return $this->belongsTo(Account::class);
+	}
+
+	public function user(){
+		return $this->belongsTo(User::class);
 	}
 }
 

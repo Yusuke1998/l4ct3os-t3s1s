@@ -23,7 +23,7 @@
 		<template v-slot:body>
 			<div class="col-lg-12 col-md-10">
 				<table-component
-					:data="fetchData"
+					:data="fetchDataTable"
 					sort-by="id"
 					sort-order="asc"
 					ref="table"
@@ -92,7 +92,8 @@ export default {
 		return {
 			title: "",
 			accion: "",
-			fecthUrl: "/employees"
+			fecthUrl: "/employees",
+			fecthTableUrl: "/employees"
 		};
 	},
 

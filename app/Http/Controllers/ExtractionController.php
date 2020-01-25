@@ -25,18 +25,37 @@ class ExtractionController extends Controller {
 		], 200);
 	}
 
-	public function tableComponent(Request $request) #revisar
+	public function datatable(Request $request, $perPage=5)
 	{
-		$extractions = Extraction::orderBy('created_at','desc')->paginate(10);
-		$data = Extraction::all();
+		$order = isset($request->sort['order'])?$request->sort['order']:'desc';
+		$fieldname = isset($request->sort['fieldName'])?$request->sort['fieldName']:'created_at';
+		$filter = '%'.$request->filter.'%';
+
+		$extractions = Extraction::with('employee','cow')
+			->where('quantity','LIKE',$filter)
+			->orWhere('date','LIKE',$filter)
+			->orWhereHas('employee',function($query) use ($filter){
+				return $query
+					->where('name','LIKE',$filter)
+					->orWhere('identificacion_number','LIKE',$filter);
+			})
+			->orWhereHas('cow',function($query) use ($filter){
+				return $query
+				->where('year_birth','LIKE',$filter)
+				->orWhere('weight','LIKE',$filter)
+				->orWhere('type','LIKE',$filter)
+				->orWhere('code','LIKE',$filter);
+			})
+			->orderBy($fieldname,$order)
+			->paginate($perPage);
+
 		return response([
-			'status' => 'success',
-			'data' => $data,
 			'pagination' => [
-                'total'         => $extractions->total(),
-                'current_page'  => $extractions->currentPage(),
-            ]
-		], 200);
+	            'totalPages'	=> ceil($extractions->total()/$perPage),
+	            'currentPage'	=> $extractions->currentPage(),
+	        ],
+	        'data' => $extractions->all()
+    	], 200);
 	}
 
 	public function stadisticsExtractions(Request $request) 

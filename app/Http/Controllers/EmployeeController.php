@@ -8,6 +8,28 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller {
 
+	public function datatable(Request $request, $perPage=5)
+	{
+		$order = isset($request->sort['order'])?$request->sort['order']:'desc';
+		$fieldname = isset($request->sort['fieldName'])?$request->sort['fieldName']:'created_at';
+		$filter = '%'.$request->filter.'%';
+
+		$extractions = Employee::where('name','LIKE',$filter)
+			->orWhere('identificacion_number','LIKE',$filter)
+			->orWhere('position','LIKE',$filter)
+			->orWhere('date_birth','LIKE',$filter)
+			->orderBy($fieldname,$order)
+			->paginate($perPage);
+
+		return response([
+			'pagination' => [
+	            'totalPages'	=> ceil($extractions->total()/$perPage),
+	            'currentPage'	=> $extractions->currentPage(),
+	        ],
+	        'data' => $extractions->all()
+    	], 200);
+	}
+
 	public function index($position = null) {
 
 		if ($position) {

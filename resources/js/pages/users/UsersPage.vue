@@ -23,10 +23,11 @@
 		<template v-slot:body>
 			<div class="col-lg-12 col-md-10">
 				<table-component
-					:data="fetchData"
+					:data="fetchDataTable"
 					sort-by="id"
 					sort-order="asc"
 					ref="table"
+					:cache-lifetime="false"
 				>
 					<table-column show="name" label="Nombre"></table-column>
 					<table-column
@@ -37,6 +38,7 @@
 						show="rol_user"
 						label="Rol"
 						:filterable="false"
+						:sortable="false"
 					></table-column>
 					<table-column
 						label="Accion"
@@ -86,6 +88,7 @@ export default {
 			title: "",
 			accion: "",
 			fecthUrl: '/users',
+			fecthTableUrl: "/users"
 		};
 	},
 

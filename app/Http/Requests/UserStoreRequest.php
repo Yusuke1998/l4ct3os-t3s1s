@@ -25,7 +25,7 @@ class UserStoreRequest extends FormRequest {
 			return [
 				'name' => 'required|string',
 				'email' => 'required|email|unique:users',
-				'password' => 'required|string|min:6|max:10',
+				'password' => 'required|string|min:4|max:10|confirmed',
 			];
 
 		}
@@ -39,7 +39,7 @@ class UserStoreRequest extends FormRequest {
 			'password.required' => 'La clave es obligatoria',
 			'email.unique' => 'Este correo ya existe',
 			'password.min' => 'La clave debe tener al menos 6 caracteres',
-
+            'password.confirmed'=>  'Las contraseñas no coinciden.'
 		];
 	}
 

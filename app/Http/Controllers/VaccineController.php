@@ -16,6 +16,40 @@ class VaccineController extends Controller {
 		], 200);
 	}
 
+	public function datatable(Request $request, $perPage=5)
+	{
+		$order = isset($request->sort['order'])?$request->sort['order']:'desc';
+		$fieldname = isset($request->sort['fieldName'])?$request->sort['fieldName']:'created_at';
+		$filter = '%'.$request->filter.'%';
+
+		$vaccines = Vaccine::where('quantity','LIKE',$filter)
+			->orWhere('date','LIKE',$filter)
+			->orWhereHas('employee',function($query) use ($filter){
+				return $query
+					->where('name','LIKE',$filter)
+					->orWhere('identificacion_number','LIKE',$filter);
+			})
+			->orWhereHas('cow',function($query) use ($filter){
+				return $query
+					->where('type','LIKE',$filter)
+					->orWhere('code','LIKE',$filter);
+			})
+			->orWhereHas('medicine',function($query) use ($filter){
+				return $query
+					->where('name_medicine','LIKE',$filter);
+			})
+			->orderBy($fieldname,$order)
+			->paginate($perPage);
+
+		return response([
+			'pagination' => [
+	            'totalPages'	=> ceil($vaccines->total()/$perPage),
+	            'currentPage'	=> $vaccines->currentPage(),
+	        ],
+	        'data' => $vaccines->all()
+    	], 200);
+	}
+
 	public function index() {
 		$vaccines = Vaccine::all();
 		return response([

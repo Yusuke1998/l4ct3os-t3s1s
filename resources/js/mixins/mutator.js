@@ -24,13 +24,11 @@ const mutatorMixin = {
 		async fetchData() {
 			const response = await axios.get(this.fecthUrl);
 			return response.data;
-			this.$refs.table.refresh();
 		},
 
-		async fetchDataTable({page,filter,sort}) { //revisar
+		async fetchDataTable({page,filter,sort}) {
 			const response = await axios.post(this.fecthTableUrl,{page,filter,sort});
 			return response.data;
-			this.$refs.table.refresh();
 		}
 	}
 };

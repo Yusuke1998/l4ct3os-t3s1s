@@ -25,22 +25,10 @@
 		<template v-slot:body>
 			<div class="col-lg-12 col-md-10">
 				<table-component
-					:data="fetchData"
+					:data="fetchDataTable"
 					sort-by="date"
-					sort-order="des"
+					sort-order="desc"
 					ref="table">
-					<table-column
-						show="name_employee"
-						label="Nombre del ordeñador"
-						:filterable="true"
-						:sortable="true"
-					></table-column>
-					<table-column
-						show="code_cow"
-						label="Codigo de la res ordeñada"
-						:filterable="true"
-						:sortable="true"
-					></table-column>
 					<table-column
 						show="date"
 						label="Fecha de ordeño"
@@ -48,7 +36,6 @@
 						:sortable="true"
 					>
 					</table-column>
-
 					<table-column
 						show="quantity"
 						label="Leche ordeñada LTS"
@@ -56,7 +43,18 @@
 						:sortable="true"
 					>
 					</table-column>
-
+					<table-column
+						show="name_employee"
+						label="Nombre del ordeñador"
+						:filterable="true"
+						:sortable="false"
+					></table-column>
+					<table-column
+						show="code_cow"
+						label="Codigo de la res ordeñada"
+						:filterable="true"
+						:sortable="false"
+					></table-column>
 					<table-column
 						label="Accion"
 						:sortable="false"
@@ -110,7 +108,8 @@ export default {
 		return {
 			title: "",
 			accion: "",
-			fecthUrl: "/extractions"
+			fecthUrl: "/extractions",
+			fecthTableUrl: "/extractions"
 		};
 	},
 

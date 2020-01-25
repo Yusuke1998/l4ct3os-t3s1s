@@ -25,18 +25,20 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('auth/logout', 'AuthController@logout');
 	Route::post('auth/register', 'AuthController@register');
 	Route::get('/users', 'AuthController@index');
+	Route::post('/users', 'AuthController@datatable');
 	Route::put('/user/update/{user}', 'AuthController@update');
 	Route::delete('/user/delete/{user}', 'AuthController@delete');
 
 	//Employees
 	Route::post('/employee/register', 'EmployeeController@register');
+	Route::post('/employees', 'EmployeeController@datatable');
 	Route::get('/employees/{position?}', 'EmployeeController@index');
 	Route::put('/employee/update/{employee}', 'EmployeeController@update');
 	Route::delete('/employee/delete/{employee}', 'EmployeeController@delete');
 
 	//Payments
-	Route::get('/payments/{status?}', 'PaymentController@index');
-	Route::get('/payment/{code?}', 'PaymentController@code');
+	Route::post('payment/employee/{employee_id}', 'PaymentController@employee');
+	Route::post('/payments', 'PaymentController@datatable');
 	Route::post('/payment/register', 'PaymentController@register');
 	Route::put('/payment/update/{payment}', 'PaymentController@update');
 	Route::delete('/payment/delete/{payment}', 'PaymentController@delete');
@@ -47,6 +49,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 	//Cows
 	Route::post('/cow/register', 'CowController@register');
+	Route::post('/cows', 'CowController@datatable');
 	Route::get('/cows/total', 'CowController@countTotal');
 	Route::get('/cows/statistics', 'CowController@statisticsCows');
 	Route::get('/cows/{milking?}', 'CowController@index');
@@ -54,8 +57,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::delete('/cow/delete/{cow}', 'CowController@delete');
 
 	//medicines
-	Route::post('/medicine/register', 'MedicineController@register');
 	Route::get('/medicines/{good?}', 'MedicineController@index');
+	Route::post('/medicines', 'MedicineController@datatable');
+	Route::post('/medicine/register', 'MedicineController@register');
 	Route::put('/medicine/update/{medicine}', 'MedicineController@update');
 	Route::delete('/medicine/delete/{medicine}', 'MedicineController@delete');
 
@@ -63,15 +67,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/vaccine/register', 'VaccineController@register');
 	Route::get('/vaccines/total/today', 'VaccineController@countTotalToday');
 	Route::get('/vaccines', 'VaccineController@index');
+	Route::post('/vaccines', 'VaccineController@datatable');
 	Route::put('/vaccine/update/{vaccine}', 'VaccineController@update');
 	Route::delete('/vaccine/delete/{vaccine}', 'VaccineController@delete');
 
 	//Extractions
 	Route::post('/extraction/register', 'ExtractionController@register');
 	Route::get('/extractions', 'ExtractionController@index');
-
-	Route::post('/extractions/table', 'ExtractionController@tableComponent');#revisar
-	
+	Route::post('/extractions', 'ExtractionController@datatable');
 	Route::post('/extractions/stadistics', 'ExtractionController@stadisticsExtractions');
 	Route::put('/extraction/update/{extraction}', 'ExtractionController@update');
 	Route::delete('/extraction/delete/{extraction}', 'ExtractionController@delete');

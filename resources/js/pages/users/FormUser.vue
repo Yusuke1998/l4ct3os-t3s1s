@@ -57,7 +57,7 @@
 				placeholder="confirmar"
 				aria-label="confirmar"
 				aria-describedby="basic-addon4"
-				v-model="form.confirmPassword"
+				v-model="form.password_c"
 			/>
 		</div>
 	</form>
@@ -79,7 +79,7 @@ export default {
 				name: "",
 				email: "",
 				password: "",
-				confirmPassword: ""
+				password_confirmation: ""
 			},
 
 			id: 'users',
@@ -98,29 +98,25 @@ export default {
 
 		register(url) {
 			var app = this;
-
-			if (app.form.password != app.form.confirmPassword) {
-				swal("Error", "Las contraseñas no coinciden", "error");
-				return;
-			}
-
 			this.$auth.register({
 				data: {
 					name: app.form.name,
 					email: app.form.email,
-					password: app.form.password
+					password: app.form.password,
+					password_confirmation: app.form.password_c,
 				},
 				success: function() {
 					swal(
 						"Exelente",
 						"Usuario registrado correctamente",
 						"success"
-					).then(value => {
-						utils.reload();
-					});
+					)
+					utils.reload();
 				},
-				error: function(data) {
-					swal("Error", "Este usuario ya existe", "error");
+				error: function(errors) {
+					Object.values(errors.response.data.errors).forEach((element,indx) => {
+	                	this.$alertify.error(element.toString())
+	                });
 				},
 				redirect: null
 			});

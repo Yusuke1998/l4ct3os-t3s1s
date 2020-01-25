@@ -141,10 +141,19 @@ export default {
 
 	created() {
 		this.fetchEmployees(this.fecthEmployeesUrl);
+		
 		this.$bus.$on('createdAccount',(bank)=>{
 			if(bank){
 				this.getAccounts()
 			}
+		})
+
+		this.$bus.$on('data',(data)=>{
+			this.getAccounts(data.data.employee_id)
+		})
+
+		this.$bus.$on('clear',(data)=>{
+			this.accounts=[]
 		})
 	},
 
@@ -156,8 +165,12 @@ export default {
 			});
 		},
 
-		getAccounts() {
-			this.fetchAccounts(this.form.employee_id)
+		getAccounts(id=0) {
+			if (id>0) {
+				this.fetchAccounts(id)
+			}else{
+				this.fetchAccounts(this.form.employee_id)
+			}
 		},
 
 		fetchAccounts(id) {
@@ -174,11 +187,6 @@ export default {
 			}else{
 				$("#"+id).modal('hide')
 			}
-		},
-
-		storePayment()
-		{
-			
 		}
 	},
 

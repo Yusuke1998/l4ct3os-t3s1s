@@ -30,39 +30,40 @@ class CowController extends Controller {
 
 	}
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+	public function datatable(Request $request, $perPage=5)
+	{
+		$order = isset($request->sort['order'])?$request->sort['order']:'desc';
+		$fieldname = isset($request->sort['fieldName'])?$request->sort['fieldName']:'created_at';
+		$filter = '%'.$request->filter.'%';
+
+		$cows = Cow::where('year_birth','LIKE',$filter)
+			->orWhere('weight','LIKE',$filter)
+			->orWhere('type','LIKE',$filter)
+			->orWhere('code','LIKE',$filter)
+			->orderBy($fieldname,$order)
+			->paginate($perPage);
+
+		return response([
+			'pagination' => [
+	            'totalPages'	=> ceil($cows->total()/$perPage),
+	            'currentPage'	=> $cows->currentPage(),
+	        ],
+	        'data' => $cows->all()
+    	], 200);
+	}
+
 	public function index($milking = null) {
 		if ($milking) {
 			$cows = Cow::milking()->get();
 		} else {
 			$cows = Cow::all();
 		}
-
 		return response([
 			'status' => 'success',
 			'data' => $cows,
 		], 200);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create() {
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
 	public function register(CowStoreRequest $request) {
 		$cow = new Cow();
 		$cow->create($request->except('_token'));
@@ -71,57 +72,21 @@ class CowController extends Controller {
 			'status' => 'success',
 			'data' => $cow,
 		], 200);
-
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  \App\Models\Cow\Cow  $cow
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show(Cow $cow) {
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  \App\Models\Cow\Cow  $cow
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit(Cow $cow) {
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Models\Cow\Cow  $cow
-	 * @return \Illuminate\Http\Response
-	 */
 	public function update(CowStoreRequest $request, Cow $cow) {
 		$cow->update($request->all());
 		return response([
 			'status' => 'success',
 			'data' => $cow,
 		], 200);
-
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Models\Cow\Cow  $cow
-	 * @return \Illuminate\Http\Response
-	 */
 	public function delete(Cow $cow) {
 		$cow->delete();
 		return response([
 			'status' => 'success',
 			'data' => $cow,
 		], 200);
-
 	}
 }
