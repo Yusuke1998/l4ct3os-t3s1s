@@ -16,7 +16,20 @@
 				required
 			/>
 		</div>
-
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Cantidad de la medicina <small>mg</small></span>
+			</div>
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Cantidad"
+				aria-label="Cantidad"
+				aria-describedby="basic-addon1"
+				v-model="form.quantity"
+				required
+			/>
+		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="basic-addon3"
@@ -49,6 +62,7 @@ export default {
 			form: {
 				id: "",
 				name_medicine: "",
+				quantity: "",
 				date: ""
 			},
 

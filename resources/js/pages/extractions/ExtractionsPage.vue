@@ -81,10 +81,10 @@
 					</table-column>
 					<template slot="tfoot" slot-scope="{ rows }">
 				        <tr>
-				            <th>&nbsp;</th>
-				            <th>&nbsp;</th>
 				            <th>Total Lts:</th>
 				            <th>{{ rows.reduce((sum, value) => { return sum + value.data.quantity; }, 0) }}</th>
+				            <th>&nbsp;</th>
+				            <th>&nbsp;</th>
 				            <th>&nbsp;</th>
 				        </tr>
 				    </template>

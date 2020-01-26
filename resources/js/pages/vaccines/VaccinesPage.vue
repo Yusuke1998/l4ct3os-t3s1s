@@ -13,8 +13,8 @@
 			<div class="col-lg-12 col-md-10">
 				<table-component
 					:data="fetchDataTable"
-					sort-by="id"
-					sort-order="asc"
+					sort-by="date"
+					sort-order="desc"
 					:cache-lifetime="false"
 					ref="table"
 				>
@@ -25,18 +25,23 @@
 						:sortable="false"
 					></table-column>
 					<table-column
-						show="code_cow"
-						label="Codigo de la res vacunada"
-						:filterable="true"
-						:sortable="false"
-					></table-column>
-					<table-column
 						show="name_medicine"
 						label="Vacuna"
 						:filterable="true"
 						:sortable="false"
 					>
 					</table-column>
+					<table-column label="Cantidad"> 
+						<template slot-scope="row">
+							{{row.quantity}} mg
+						</template>
+					</table-column>
+					<table-column
+						show="code_cow"
+						label="Codigo de la res vacunada"
+						:filterable="true"
+						:sortable="false"
+					></table-column>
 					<table-column
 						:formatter="FormDate" 
 						show="date" 
@@ -44,13 +49,6 @@
 						:sortable="true"
 						label="Fecha aplicada">
 					</table-column>
-					<table-column label="Cantidad"> 
-						<template slot-scope="row">
-							{{row.quantity}} mg
-						</template>
-					</table-column>
-					
-
 					<table-column
 						label="Accion"
 						:sortable="false"

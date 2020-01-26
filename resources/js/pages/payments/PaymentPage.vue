@@ -49,6 +49,7 @@
 								label="Fecha"
 							></table-column>
 							<table-column 
+								:formatter="FormAmount"
 								show="amount" 
 								label="Monto"
 							></table-column>
@@ -172,6 +173,9 @@ export default {
 			return value.split('-')[2]
 					+'/'+value.split('-')[1]
 					+'/'+value.split('-')[0]
+		},
+		FormAmount(value, rowProperties){
+			return value+' Bs';
 		},
 		setStatus(data){
 			let endpoint = 'payment/status/'+data.id;

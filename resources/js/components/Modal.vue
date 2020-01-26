@@ -29,6 +29,7 @@
 						type="button"
 						class="btn btn-secondary"
 						data-dismiss="modal"
+						@click="clearHandler()"
 					>
 						Cerrar
 					</button>
@@ -76,6 +77,10 @@ export default {
 
 		editHandler(){
 			this.$bus.$emit('edit');
+		},
+
+		clearHandler(){
+			this.$bus.$emit('clear');
 		}
 
 	}

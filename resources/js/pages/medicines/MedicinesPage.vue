@@ -23,14 +23,20 @@
 			<div class="col-lg-12 col-md-10">
 				<table-component
 					:data="fetchDataTable"
-					sort-by="id"
-					sort-order="asc"
+					sort-by="date"
+					sort-order="desc"
 					ref="table"
 					:cache-lifetime="false"
 				>
 					<table-column
 						show="name_medicine"
 						label="Nombre"
+						:filterable="true"
+					></table-column>
+					<table-column
+						:formatter="FormQuantity"
+						show="quantity"
+						label="Cantidad"
 						:filterable="true"
 					></table-column>
 					<table-column
@@ -108,11 +114,18 @@ export default {
 					+'/'+value.split('-')[1]
 					+'/'+value.split('-')[0]
 		},
+		FormQuantity(value, rowProperties){
+			return value+' mg';
+		},
 		Defeated(value, rowProperties){
 			let moment = require('moment')
 			let defeated = moment(value.date).format("YYYY-MM-DD");
 			let current = moment().format("YYYY-MM-DD");
-			return defeated<=current?'Vencida':'Disponible';
+			if (value.quantity > 0) {
+				return defeated<=current?'Vencida':'Disponible';
+			}else{
+				return 'Agotada';
+			}
 		}
 	}
 };

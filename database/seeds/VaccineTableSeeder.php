@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
 use App\Models\Cow\Cow;
 use App\Models\Vaccine\Vaccine;
 use App\Models\Medicine\Medicine;
@@ -12,9 +11,13 @@ class VaccineTableSeeder extends Seeder{
     {
     	for ($i=1; $i <= 7; $i++) { 
 	        Vaccine::create([
-	        	'employee_id'	=> Employee::all()->random()->id,
-				'medicine_id'	=> Medicine::all()->random()->id,
-				'date'			=> Carbon::now()->format('Y-m-d'),
+	        	'employee_id'	=> Employee::where('position','vaccination')
+				                            ->get()
+				                            ->random()->id,
+				'medicine_id'	=> Medicine::where('date','>',date('Y-m-d'))
+				                            ->get()
+				                            ->random()->id,
+				'date'			=> date('Y-m-d'),
 				'quantity'		=> rand(100,500),
 				'cow_id' 		=> Cow::all()->random()->id
 	        ]);

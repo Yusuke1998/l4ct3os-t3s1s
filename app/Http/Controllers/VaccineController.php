@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VaccineStoreRequest;
 use App\Models\Vaccine\Vaccine;
+use App\Models\Medicine\Medicine;
 use Illuminate\Http\Request;
 
 class VaccineController extends Controller {
@@ -60,19 +61,88 @@ class VaccineController extends Controller {
 
 	public function register(VaccineStoreRequest $request) {
 		$vaccine = new Vaccine();
-		$vaccine->create($request->except('_token'));
-		return response([
-			'status' => 'success',
-			'data' => $vaccine,
-		], 200);
+		$medicine = Medicine::findOrFail($request->medicine_id);
+		$quan1 = $medicine->quantity;
+		$quan2 = $request->quantity;
+		if ($quan1>=$quan2){
+			$vaccine->create($request->except('_token'));
+			$medicine->quantity-=$request->quantity;
+			$medicine->save();
+			return response([
+				'status' => 'success',
+				'data' => $vaccine,
+			], 200);
+		}else{
+			return response([
+				'status'	=> 'error',
+				'data' 		=> $vaccine,
+			], 422);
+		}
 	}
 
 	public function update(VaccineStoreRequest $request, Vaccine $vaccine){
-		$vaccine->update($request->all());
+
+		if ($vaccine->medicine_id !== $request->medicine_id){
+			$medicine = Medicine::findOrFail($request->medicine_id);
+			$quan1 = $request->quantity;
+			$quan2 = $vaccine->quantity;
+			$quan3 = $medicine->quantity;
+			if ($quan1 <= $quan3) {
+				$oldMedicine = Medicine::findOrFail($vaccine->medicine_id);
+				$oldMedicine->quantity += $vaccine->quantity;
+				$oldMedicine->save();
+				$newMedicine = Medicine::findOrFail($request->medicine_id);
+				$quan1 = $newMedicine->quantity;
+				$quan2 = $request->quantity;
+				if ($quan1>=$quan2){
+					$vaccine->update($request->all());
+					$newMedicine->quantity -= $request->quantity;
+					$newMedicine->save();
+					return response([
+						'status' => 'success',
+						'data' => $vaccine,
+					], 200);
+				}else{
+					return response([
+						'status'	=> 'error',
+						'data' 		=> $vaccine,
+					], 422);
+				}
+			}else{
+				return response([
+					'status'	=> 'error',
+					'data' 		=> $vaccine,
+				], 422);
+			}
+		}else{
+			$medicine = Medicine::findOrFail($request->medicine_id);
+			$quan1 = $request->quantity;
+			$quan2 = $vaccine->quantity;
+			$quan3 = $medicine->quantity;
+			if ($quan1 > $quan2 && $quan1 < $quan3){
+				$vaccine->update($request->all());
+				$medicine->quantity -= ($quan1-$quan2);
+				$medicine->save();
+				return response([
+					'status' => 'success',
+					'data' => $vaccine,
+				], 200);
+			}elseif ($quan1 <= $quan2){
+				$vaccine->update($request->all());
+				$medicine = Medicine::findOrFail($request->medicine_id);
+				$medicine->quantity += ($quan2-$quan1);
+				$medicine->save();
+				return response([
+					'status' => 'success',
+					'data' => $vaccine,
+				], 200);
+			}
+		}
+
 		return response([
-			'status' => 'success',
+			'status' => 'error',
 			'data' => $vaccine,
-		], 200);
+		], 422);
 	}
 
 	public function delete(Vaccine $vaccine) {

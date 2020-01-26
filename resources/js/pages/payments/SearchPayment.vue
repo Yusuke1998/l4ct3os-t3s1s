@@ -13,6 +13,8 @@
 					<form class="form-group" @submit.prevent>
 	                    <div class="input-group">
 							<input 
+							minlength="7"
+							maxlength="8" 
 							@keyup.enter="searchEmployee"
 							class="form-control" 
 							type="number" 
@@ -80,6 +82,7 @@
 								label="Fecha"
 							></table-column>
 							<table-column 
+								:formatter="FormAmount"
 								show="amount" 
 								label="Monto"
 							></table-column>
@@ -123,7 +126,7 @@ export default {
 
 	data() {
 		return {
-			searchShow: true,
+			searchShow: false,
 			title: "",
 			accion: "",
 			payments:[],
@@ -177,6 +180,9 @@ export default {
 					+'/'+value.split('-')[1]
 					+'/'+value.split('-')[0]
 		},
+		FormAmount(value, rowProperties){
+			return value+' Bs';
+		}
 	},
 
 	components: {

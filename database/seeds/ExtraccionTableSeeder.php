@@ -12,8 +12,10 @@ class ExtraccionTableSeeder extends Seeder
     {
     	for ($i=1; $i <= 15; $i++) { 
 	        Extraction::create([
-	        	'employee_id'	=> Employee::all()->random()->id,
-				'date'			=> Carbon::now()->format('Y-m-d'),
+	        	'employee_id'	=> Employee::where('position','extraccion')
+	        						->get()
+	        						->random()->id,
+				'date'			=> date('Y-m-d'),
 				'quantity'		=> rand(100,1000),
 				'cow_id' 		=> Cow::all()->random()->id
 	        ]);

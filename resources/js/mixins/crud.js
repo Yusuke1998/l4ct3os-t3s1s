@@ -37,13 +37,22 @@ const crudMixin = {
 						"success"
 					);
 					utils.reload();
-				})
-				.catch(allErrors => {
-	                Object.values(allErrors.response.data.errors)
-	                .forEach((element,indx) => {
-	                	this.$alertify.error(element.toString())
-	                });
+					return;
 				});
+				// })
+				// .catch(allErrors => {
+	   //              Object.values(allErrors.response.data.errors)
+	   //              .forEach((element,indx) => {
+	   //              	this.$alertify.error(element.toString())
+				// 		return;
+	   //              });
+				// 	if(allErrors.response.data.status == 422)
+				// 	{
+				// 		this.$alertify.error('Ha ocurrido un error, revisa que los datos sean correctos!')
+				// 		return;
+				// 	}
+				// });
+			return;
 		},
 
 		edit(url) {
@@ -59,13 +68,22 @@ const crudMixin = {
 						"success"
 					);
 					utils.reload();
-				})
-				.catch(allErrors => {
-	                Object.values(allErrors.response.data.errors)
-	                .forEach((element,indx) => {
-	                	this.$alertify.error(element.toString())
-	                });
+					return;
 				});
+				// })
+				// .catch(allErrors => {
+	   //              Object.values(allErrors.response.data.errors)
+	   //              .forEach((element,indx) => {
+	   //              	this.$alertify.error(element.toString())
+				// 		return;
+	   //              });
+				// 	if(allErrors.response.data.status == 422)
+				// 	{
+				// 		this.$alertify.error('Ha ocurrido un error, revisa que los datos sean correctos!')
+				// 		return;
+				// 	}
+				// });
+			return;
 		},
 
 		delete(url) {
@@ -87,6 +105,7 @@ const crudMixin = {
 								icon: "success"
 							});
 							utils.reload();
+							return;
 						})
 						.catch(error => {
 							swal("Tu registro no pudo ser borrado!", {
@@ -104,6 +123,7 @@ const crudMixin = {
 				this.form[property] = ''
 			}
 			this.form.id = null;
+			return;
 		},
 	}
 };

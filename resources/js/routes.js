@@ -12,6 +12,7 @@ import StadisticsPage from './pages/stadistics/StadisticsPage';
 const domain = window.location.host;
 let routes = null;
 
+
 if(domain == 'localhost'){
 	 routes = [
 	{
@@ -112,8 +113,8 @@ if(domain == 'localhost'){
 
 	];
 
-}else{
-	 routes = [
+}else{	
+	routes = [
 	{
 		path: "/",
 		redirect: "/login"

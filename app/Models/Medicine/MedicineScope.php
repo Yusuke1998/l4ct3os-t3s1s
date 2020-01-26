@@ -7,7 +7,8 @@ trait MedicineScope {
 
 	public function scopeGood($query) {
 
-		return $query->where('date', '>', Carbon::now()->format('Y-m-d'));
+		return $query->where('date', '>', date('Y-m-d'))
+					->where('quantity','>','0');
 	}
 }
 

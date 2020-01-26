@@ -24,7 +24,7 @@
 				<option 
 					v-for="medicine in medicines" 
 					:key="medicine.id" 
-					:value="medicine.id">{{ medicine.name_medicine }}</option>
+					:value="medicine.id">{{ medicine.name_medicine }} / {{medicine.quantity}} mg</option>
 			</select>
 		</div>
 

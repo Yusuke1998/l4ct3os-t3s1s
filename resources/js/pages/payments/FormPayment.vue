@@ -73,7 +73,7 @@
 			</div>
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
-					<span class="input-group-text" id="basic-addon1">Monto</span>
+					<span class="input-group-text" id="basic-addon1">Monto (BS)</span>
 				</div>
 				<input
 					type="number"
