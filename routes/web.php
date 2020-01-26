@@ -11,13 +11,17 @@
 |
  */
 
-Route::get('/', function () {
-	return view('welcome');
-});
-
+// Route::get('/', function () {
+// 	return view('welcome');
+// });
 Auth::routes();
 
-Route::get('{any}', function () {
-	return view('welcome');
-})->where('any', '.*');
+Route::get('/{any?}', function () {
+    return view('welcome');
+})->where('any', '[\/\w\.-]*');
+
+
+// Route::get('{any}', function () {
+// 	return view('welcome');
+// })->where('any', '.*');
 // Route::get('/home', 'HomeController@index')->name('home');

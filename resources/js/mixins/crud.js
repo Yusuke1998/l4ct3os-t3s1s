@@ -36,12 +36,11 @@ const crudMixin = {
 						"Se realizo registro correctamente",
 						"success"
 					);
-					// this.$refs.table.refresh();
 					utils.reload();
 				})
-				.catch(errors => {
-					console.log(errors)
-	                Object.values(errors.response.data.errors).forEach((element,indx) => {
+				.catch(allErrors => {
+	                Object.values(allErrors.response.data.errors)
+	                .forEach((element,indx) => {
 	                	this.$alertify.error(element.toString())
 	                });
 				});
@@ -59,12 +58,11 @@ const crudMixin = {
 						"registro modificado correctamente",
 						"success"
 					);
-					// this.$refs.table.refresh();
 					utils.reload();
 				})
-				.catch(errors => {
-					console.log(errors)
-	                Object.values(errors.response.data.errors).forEach((element,indx) => {
+				.catch(allErrors => {
+	                Object.values(allErrors.response.data.errors)
+	                .forEach((element,indx) => {
 	                	this.$alertify.error(element.toString())
 	                });
 				});
@@ -88,7 +86,6 @@ const crudMixin = {
 							swal("Tu registro ha sido borrado!", {
 								icon: "success"
 							});
-							// this.$refs.table.refresh();
 							utils.reload();
 						})
 						.catch(error => {

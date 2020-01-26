@@ -28,6 +28,7 @@
 					:data="fetchDataTable"
 					sort-by="date"
 					sort-order="desc"
+					:cache-lifetime="false"
 					ref="table">
 					<table-column
 						show="date"

@@ -33,6 +33,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/employee/register', 'EmployeeController@register');
 	Route::post('/employees', 'EmployeeController@datatable');
 	Route::get('/employees/{position?}', 'EmployeeController@index');
+	Route::get('/employee/ci/{ci}', 'EmployeeController@ci');
 	Route::put('/employee/update/{employee}', 'EmployeeController@update');
 	Route::delete('/employee/delete/{employee}', 'EmployeeController@delete');
 
@@ -40,6 +41,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('payment/employee/{employee_id}', 'PaymentController@employee');
 	Route::post('/payments', 'PaymentController@datatable');
 	Route::post('/payment/register', 'PaymentController@register');
+	Route::put('/payment/status/{payment}', 'PaymentController@status');
 	Route::put('/payment/update/{payment}', 'PaymentController@update');
 	Route::delete('/payment/delete/{payment}', 'PaymentController@delete');
 
@@ -78,7 +80,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/extractions/stadistics', 'ExtractionController@stadisticsExtractions');
 	Route::put('/extraction/update/{extraction}', 'ExtractionController@update');
 	Route::delete('/extraction/delete/{extraction}', 'ExtractionController@delete');
-
 });
 
 Route::group(['middleware' => 'jwt.refresh'], function () {

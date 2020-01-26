@@ -14,18 +14,21 @@ class CreateVaccinesTable extends Migration {
 			$table->foreign('employee_id')
 				->references('id')
 				->on('employees')
+				->onUpdate('cascade')
 				->onDelete('cascade');
 
 			$table->bigInteger('cow_id')->unsigned();
 			$table->foreign('cow_id')
 				->references('id')
 				->on('cows')
+				->onUpdate('cascade')
 				->onDelete('cascade');
 
 			$table->bigInteger('medicine_id')->unsigned();
 			$table->foreign('medicine_id')
 				->references('id')
 				->on('medicines')
+				->onUpdate('cascade')
 				->onDelete('cascade');
 
 			$table->date('date');

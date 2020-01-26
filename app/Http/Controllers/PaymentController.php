@@ -103,6 +103,15 @@ class PaymentController extends Controller
         ], 200);
     }
 
+    public function status(PaymentStoreRequest $request, Payment $payment){
+        $payment->status = 'realizado';
+        $payment->save();
+        return response([
+            'status' => 'success',
+            'data' => $payment,
+        ], 200);
+    }
+
     public function delete(Payment $payment) {
         $payment->delete();
         return response([

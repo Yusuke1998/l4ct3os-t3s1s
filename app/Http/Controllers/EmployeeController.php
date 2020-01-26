@@ -44,6 +44,15 @@ class EmployeeController extends Controller {
 		], 200);
 	}
 
+	public function ci($ci)
+	{
+		$employee = Employee::where('identificacion_number',$ci)->first();
+		return response([
+			'status' => 'success',
+			'data' => $employee,
+		], 200);
+	}
+
 	public function register(EmployeeStoreRequest $request) {
 		$employee = new Employee();
 		$employee->create($request->except('_token'));

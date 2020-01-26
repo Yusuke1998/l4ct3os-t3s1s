@@ -34,7 +34,7 @@
 					<div class="col-lg-12 col-md-10">
 						<table-component
 							:data="fetchDataTable"
-							sort-by="date"
+							sort-by="status"
 							sort-order="desc"
 							ref="table"
 							:cache-lifetime="false"
@@ -44,6 +44,7 @@
 								label="Codigo"
 							></table-column>
 							<table-column 
+								:formatter="FormDate"
 								show="date" 
 								label="Fecha"
 							></table-column>
@@ -52,14 +53,20 @@
 								label="Monto"
 							></table-column>
 							<table-column 
+								:sortable="false"
+								:filterable="false"
 								show="employee.name" 
 								label="Empleado"
 							></table-column>
 							<table-column 
+								:sortable="false"
+								:filterable="false"
 								show="account.name_bank" 
 								label="Banco"
 							></table-column>
 							<table-column 
+								:sortable="false"
+								:filterable="false"
 								show="account.number" 
 								label="Nro. Cuenta"
 							></table-column>
@@ -98,6 +105,13 @@
 										@click="setData(row, true)"
 									>
 										Eliminar
+									</button>
+									<button
+										v-if="row.status!=='realizado'"
+										class="btn btn-success"
+										@click="setStatus(row)"
+									>
+										Realizar
 									</button>
 								</template>
 							</table-column>
@@ -153,6 +167,38 @@ export default {
 		searchPay(data){
 			this.$bus.$emit('dataSearch',data)
 			this.active=false;
+		},
+		FormDate(value, rowProperties){
+			return value.split('-')[2]
+					+'/'+value.split('-')[1]
+					+'/'+value.split('-')[0]
+		},
+		setStatus(data){
+			let endpoint = 'payment/status/'+data.id;
+			swal({
+				title: "Seguro de realizar pago?",
+				text: "una vez aceptado, cambiara el estado!",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true
+			}).then(willState => {
+				if (willState) {
+					axios.put(endpoint, data)
+						.then(() => {
+							swal("El estado ha sido modificado!", {
+								icon: "success"
+							});
+							utils.reload();
+						})
+						.catch(error => {
+							swal("El pago no pudo ser modificado!", {
+								icon: "error"
+							});
+						});
+				} else {
+					return;
+				}
+			});
 		}
 	}
 }

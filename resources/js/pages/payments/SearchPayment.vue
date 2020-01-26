@@ -1,18 +1,35 @@
 <template>
 	<div class="card">
-		<div v-if="employee!==null" class="card-header">
-			<h3 class="text-center" v-text="employee.name"></h3>
+		<div class="card-header">
+			<button 
+				@click="searchShow=!searchShow"
+				class="btn btn-info btn-sm">
+				<font-awesome-icon icon="search"/>
+			</button>
 		</div>
-		<div v-else class="card-header">
+		<div v-show="searchShow" class="card-header">
 			<div class="row">
 				<div class="col-md-8 offset-md-2">
-					<input 
-					class="form-control" 
-					type="text" 
-					name="search" 
-					placeholder="Buscar">
+					<form class="form-group" @submit.prevent>
+	                    <div class="input-group">
+							<input 
+							@keyup.enter="searchEmployee"
+							class="form-control" 
+							type="number" 
+							v-model="search" 
+							placeholder="Buscar trabajador por nro de cedula">
+	                        <div class="input-group-prepend">
+	                            <button @click.prevent="searchEmployee" type="button" class="btn btn-primary">
+	                                <i class="fa fa-search mr-1"></i> Buscar
+	                            </button>
+	                        </div>
+	                    </div>
+	            	</form>
 				</div>
 			</div>
+		</div>
+		<div v-if="employee!==null" class="card-header">
+			<h3 class="text-center" v-text="employee.name"></h3>
 		</div>
 		<div v-if="employee!==null" class="body">
 			<div class="container">
@@ -58,6 +75,7 @@
 								label="Codigo"
 							></table-column>
 							<table-column 
+								:formatter="FormDate"
 								show="date" 
 								label="Fecha"
 							></table-column>
@@ -68,14 +86,20 @@
 							<table-column 
 								show="employee.name" 
 								label="Empleado"
+								:sortable="false"
+								:filterable="false"
 							></table-column>
 							<table-column 
 								show="account.name_bank" 
 								label="Banco"
+								:sortable="false"
+								:filterable="false"
 							></table-column>
 							<table-column 
 								show="account.number" 
 								label="Nro. Cuenta"
+								:sortable="false"
+								:filterable="false"
 							></table-column>
 							<table-column
 								show="status"
@@ -99,10 +123,12 @@ export default {
 
 	data() {
 		return {
+			searchShow: true,
 			title: "",
 			accion: "",
 			payments:[],
 			employee:null,
+			search:'',
 			fecthTableUrl: "/payments/",
 		};
 	},
@@ -110,15 +136,47 @@ export default {
 	created() {
 		this.$bus.$on('dataSearch',data=>{
 			this.employee = data.employee
-			this.$refs.table.refresh();
+			if (this.$refs.table!==null && this.$refs.table!==undefined){
+				this.$refs.table.refresh();
+			}
 		});
 	},
 
-	methods: {		
+	methods: {	
+		searchEmployee() {
+			if (this.search=='') {
+				this.$alertify.warning('Debes ingresar la cedula!')
+			}else if(this.search.length<7 || this.search.length>9){
+				this.$alertify.warning('Este numero no es valido!')
+			}else{
+				let url = 'employee/ci/'+this.search
+				axios.get(url)
+				.then(response => {
+					if (response.data.data !== null) {
+						this.employee = response.data.data
+						if (this.$refs.table!==null && this.$refs.table!==undefined) {
+							this.$refs.table.refresh();
+						}
+						this.$alertify.success('Trabajador encontrado exitosamente!')
+					}else{
+						this.employee = null
+						if (this.$refs.table!==null && this.$refs.table!==undefined) {
+							this.$refs.table.refresh();
+						}
+						this.$alertify.error('Trabajador no encontrado!')
+					}
+				});
+			}
+		},	
 		async dataPayments({page,filter,sort}) {
             const response = await axios.post('payment/employee/'+this.employee.id, {page,filter,sort});
             return response.data;
-        }
+        },
+        FormDate(value, rowProperties){
+			return value.split('-')[2]
+					+'/'+value.split('-')[1]
+					+'/'+value.split('-')[0]
+		},
 	},
 
 	components: {

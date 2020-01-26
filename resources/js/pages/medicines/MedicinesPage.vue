@@ -26,6 +26,7 @@
 					sort-by="id"
 					sort-order="asc"
 					ref="table"
+					:cache-lifetime="false"
 				>
 					<table-column
 						show="name_medicine"

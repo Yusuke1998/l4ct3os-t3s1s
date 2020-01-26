@@ -5,12 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
         <title>Hatos Lecheros</title>
-
-        <!-- Fonts -->
-{{--         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
- --}}
-        <!-- Styles -->
-
     </head>
     <body>
         <div id="app"></div>

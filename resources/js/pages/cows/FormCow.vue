@@ -114,14 +114,12 @@ export default {
 				dangerMode: true
 			}).then(willState => {
 				if (willState) {
-					axios
-						.put(endpoint, item)
+					axios.put(endpoint, item)
 						.then(() => {
 							swal("El estado ha sido modificada!", {
 								icon: "success"
-							}).then(value => {
-								utils.reload();
 							});
+							utils.reload();
 						})
 						.catch(error => {
 							swal("Tu res no pudo ser modificado!", {

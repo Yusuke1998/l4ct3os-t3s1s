@@ -54,7 +54,7 @@
 					>
 						<font-awesome-icon icon="medkit" />
 
-						Medicinas existentes
+						Medicinas
 					</router-link>
 				</li>
 				<li class="nav-item">

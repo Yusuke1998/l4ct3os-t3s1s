@@ -15,26 +15,33 @@
 					:data="fetchDataTable"
 					sort-by="id"
 					sort-order="asc"
+					:cache-lifetime="false"
 					ref="table"
 				>
 					<table-column
 						show="name_employee"
 						label="Nombre del vacunador"
 						:filterable="true"
+						:sortable="false"
 					></table-column>
 					<table-column
 						show="code_cow"
 						label="Codigo de la res vacunada"
+						:filterable="true"
+						:sortable="false"
 					></table-column>
 					<table-column
 						show="name_medicine"
 						label="Vacuna"
 						:filterable="true"
+						:sortable="false"
 					>
 					</table-column>
 					<table-column
 						:formatter="FormDate" 
 						show="date" 
+						:filterable="true"
+						:sortable="true"
 						label="Fecha aplicada">
 					</table-column>
 					<table-column label="Cantidad"> 

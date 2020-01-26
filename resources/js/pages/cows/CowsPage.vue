@@ -30,6 +30,7 @@
 					:data="fetchDataTable"
 					sort-by="id"
 					sort-order="asc"
+					:cache-lifetime="false"
 					ref="table"
 				>
 					<table-column
