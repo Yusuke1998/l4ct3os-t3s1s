@@ -178,6 +178,7 @@ return [
         /*
             Personal providers
         */
+        Barryvdh\DomPDF\ServiceProvider::class,
 
 
     ],
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
          // Personal Aliases
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

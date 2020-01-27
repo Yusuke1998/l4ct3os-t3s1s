@@ -13,6 +13,18 @@
 				<font-awesome-icon icon="handshake" />
 				Nuevo Pago
 			</button>
+			<!-- <div class="dropdown float-rigth">
+				<button
+					type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+					<font-awesome-icon icon="file"/>&nbspPDF
+				</button>
+			  <div class="dropdown-menu">
+			    <a class="dropdown-item" @click="pdf('payment/day')" href="#">Dia</a>
+			    <a class="dropdown-item" @click="pdf('payment/week')" href="#">Semana</a>
+			    <a class="dropdown-item" @click="pdf('payment/month')" href="#">Mes</a>
+			    <a class="dropdown-item" @click="pdf('payment/year')" href="#">Año</a>
+			  </div>
+			</div> -->
 			<!-- Modals -->
 			<modal :title="title" idTarget="payments" :accion="accion">
 				<form-payment></form-payment>
@@ -202,6 +214,15 @@ export default {
 				} else {
 					return;
 				}
+			});
+		},
+		pdf(item){
+			axios.post('/reports/pdf/'+item,)
+			.then(() => {})
+			.catch(error => {
+				swal("No es posible generar el pdf!", {
+					icon: "error"
+				});
 			});
 		}
 	}

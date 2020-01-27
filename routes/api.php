@@ -80,6 +80,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/extractions/stadistics', 'ExtractionController@stadisticsExtractions');
 	Route::put('/extraction/update/{extraction}', 'ExtractionController@update');
 	Route::delete('/extraction/delete/{extraction}', 'ExtractionController@delete');
+
+
+	// Reportes pdf 
+	Route::post('/reports/pdf/{model}/{time?}','HomeController@reports');
+
+
 });
 
 Route::group(['middleware' => 'jwt.refresh'], function () {
