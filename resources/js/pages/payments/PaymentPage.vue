@@ -16,7 +16,7 @@
 			<!-- <div class="dropdown float-rigth">
 				<button
 					type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-					<font-awesome-icon icon="file"/>&nbspPDF
+					<font-awesome-icon icon="file"/>PDF
 				</button>
 			  <div class="dropdown-menu">
 			    <a class="dropdown-item" @click="pdf('payment/day')" href="#">Dia</a>
@@ -43,6 +43,20 @@
 			<div class="tab-content" id="myTabContent">
 			  <div :class="active?'show active':''" class="tab-pane fade" id="prev" role="tabpanel" aria-labelledby="prev-tab">
 				<div class="row">
+					<div class="col-12">
+						<div class="dropdown">
+							<button
+								type="button" class="float-right btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown">
+								<font-awesome-icon icon="file"/>  PDF
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" @click="pdf('payment/day')" href="#">Dia</a>
+								<a class="dropdown-item" @click="pdf('payment/week')" href="#">Semana</a>
+								<a class="dropdown-item" @click="pdf('payment/month')" href="#">Mes</a>
+								<a class="dropdown-item" @click="pdf('payment/year')" href="#">Año</a>
+							</div>
+						</div>
+					</div>
 					<div class="col-lg-12 col-md-10">
 						<table-component
 							:data="fetchDataTable"
@@ -150,6 +164,8 @@ import Modal from "@/components/Modal.vue";
 import FormPayment from "./FormPayment";
 import SearchPayment from "./SearchPayment";
 import mutatorMixin from "@/mixins/mutator.js";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
 export default {
 	name: "PaymentPage",
@@ -165,7 +181,9 @@ export default {
 			accion: "",
 			fecthUrl: "/payments/",
 			fecthTableUrl: "/payments/",
-			active: true
+			active: true,
+			dPayment: [],
+			arrData: []
 		};
 	},
 
@@ -216,16 +234,80 @@ export default {
 				}
 			});
 		},
-		pdf(item){
-			axios.post('/reports/pdf/'+item,)
+		pdf(item)
+		{
+			pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+			let model = item.split('/')[0];
+			let time = item.split('/')[1];
+
+			axios.post('/reports/pdf/'+model)
 			.then(response => {
-				console.log(response)
-			})
-			.catch(error => {
-				swal("No es posible generar el pdf!", {
-					icon: "error"
-				});
+				this.dPayment = response.data.data
 			});
+
+			switch (time) {
+				case 'day':
+					if(this.dPayment.day!=undefined){
+						this.arrData = this.dPayment.day.forEach(element => {
+							console.log(Object.keys(element));
+							console.log(Object.values(element));
+						});
+					}
+					break;
+				case 'week':
+					console.log(this.dPayment.week);
+					break;
+				case 'month':
+					console.log(this.dPayment.month);
+					break;
+				case 'year':
+					console.log(this.dPayment.year);
+					break;
+			}
+
+			var docDefinition = {
+				content: [
+					{ text: 'Tables', style: 'header' },
+					'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
+					{ text: 'A simple table (no headers, no width specified, no spans, no styling)', style: 'subheader' },
+					'The following table has nothing more than a body array',
+					{
+						style: 'tableExample',
+						table: {
+							widths: [100, '*', 200, '*'],
+							body: [
+								['Column 1', 'Column 2', 'Column 3'],
+								['One value goes here', 'Another one here', 'OK?']
+							]
+						}
+					}
+				],
+				styles: {
+					header: {
+						fontSize: 18,
+						bold: true,
+						margin: [0, 0, 0, 10]
+					},
+					subheader: {
+						fontSize: 16,
+						bold: true,
+						margin: [0, 10, 0, 5]
+					},
+					tableExample: {
+						margin: [0, 5, 0, 15]
+					},
+					tableHeader: {
+						bold: true,
+						fontSize: 13,
+						color: 'black'
+					}
+				},
+				defaultStyle: {
+					// alignment: 'justify'
+				}
+			};
+			pdfMake.createPdf(docDefinition).open();
 		}
 	}
 }

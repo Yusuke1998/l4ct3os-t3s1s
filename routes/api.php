@@ -84,7 +84,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 
 	// Reportes pdf 
-	Route::post('/reports/pdf/{model}/{time?}','HomeController@reports');
+	Route::post('/reports/pdf/{model}/{id?}','HomeController@reports');
 
 
 });
