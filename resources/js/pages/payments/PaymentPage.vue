@@ -218,7 +218,9 @@ export default {
 		},
 		pdf(item){
 			axios.post('/reports/pdf/'+item,)
-			.then(() => {})
+			.then(response => {
+				console.log(response)
+			})
 			.catch(error => {
 				swal("No es posible generar el pdf!", {
 					icon: "error"

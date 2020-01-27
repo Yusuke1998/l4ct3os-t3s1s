@@ -50,7 +50,7 @@
 							disabled 
 							class="form-control" 
 							type="text" 
-							v-model="employee.position">
+							v-model="cargo">
 					</div>
 					<div class="form-group col-4">
 						<label>F. Nacimiento</label>
@@ -133,12 +133,14 @@ export default {
 			employee:null,
 			search:'',
 			fecthTableUrl: "/payments/",
+			cargo:''
 		};
 	},
 
 	created() {
 		this.$bus.$on('dataSearch',data=>{
 			this.employee = data.employee
+			this.trad(this.employee.position)
 			if (this.$refs.table!==null && this.$refs.table!==undefined){
 				this.$refs.table.refresh();
 			}
@@ -182,6 +184,22 @@ export default {
 		},
 		FormAmount(value, rowProperties){
 			return value+' Bs';
+		},
+		trad(data){
+			switch (data) {
+			case 'worker':
+				this.cargo = 'Obrero';
+				break;
+			case 'extraccion':
+				this.cargo = 'Extraccion';
+				break;
+			case 'vaccination':
+				this.cargo = 'Vacunacion';
+				break;
+			case 'supplies':
+				this.cargo = 'Insumos';
+				break;
+			}
 		}
 	},
 
