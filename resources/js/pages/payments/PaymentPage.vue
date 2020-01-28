@@ -13,18 +13,6 @@
 				<font-awesome-icon icon="handshake" />
 				Nuevo Pago
 			</button>
-			<!-- <div class="dropdown float-rigth">
-				<button
-					type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-					<font-awesome-icon icon="file"/>PDF
-				</button>
-			  <div class="dropdown-menu">
-			    <a class="dropdown-item" @click="pdf('payment/day')" href="#">Dia</a>
-			    <a class="dropdown-item" @click="pdf('payment/week')" href="#">Semana</a>
-			    <a class="dropdown-item" @click="pdf('payment/month')" href="#">Mes</a>
-			    <a class="dropdown-item" @click="pdf('payment/year')" href="#">Año</a>
-			  </div>
-			</div> -->
 			<!-- Modals -->
 			<modal :title="title" idTarget="payments" :accion="accion">
 				<form-payment></form-payment>
@@ -50,10 +38,11 @@
 								<font-awesome-icon icon="file"/>  PDF
 							</button>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" @click="pdf('payment/day')" href="#">Dia</a>
-								<a class="dropdown-item" @click="pdf('payment/week')" href="#">Semana</a>
-								<a class="dropdown-item" @click="pdf('payment/month')" href="#">Mes</a>
-								<a class="dropdown-item" @click="pdf('payment/year')" href="#">Año</a>
+								<a class="dropdown-item" @click="pdf('day')" href="#">Dia</a>
+								<a class="dropdown-item" @click="pdf('week')" href="#">Semana</a>
+								<a class="dropdown-item" @click="pdf('month')" href="#">Mes</a>
+								<a class="dropdown-item" @click="pdf('year')" href="#">Año</a>
+								<a class="dropdown-item" @click="pdf('')" href="#">Todo</a>
 							</div>
 						</div>
 					</div>
@@ -182,8 +171,6 @@ export default {
 			fecthUrl: "/payments/",
 			fecthTableUrl: "/payments/",
 			active: true,
-			dPayment: [],
-			arrData: []
 		};
 	},
 
@@ -234,81 +221,98 @@ export default {
 				}
 			});
 		},
+		// Generando tabla y pdf
+		cantWidths(columns) {
+			let widths = [];
+			columns.forEach(() => {
+				widths.push('auto')
+			});
+			return widths;
+		},
+		buildTableBody(data, columns) {
+		    var body = [];
+		    body.push(columns);
+		    data.forEach(function(row) {
+		        var dataRow = [];
+		        columns.forEach(function(column) {
+		            dataRow.push(row[column].toString());
+		        })
+		        body.push(dataRow);
+		    });
+		    return body;
+		},
+		table(data, columns) {
+		    return {
+		        table: {
+		        	widths: this.cantWidths(columns),
+		            headerRows: 1,
+		            body: this.buildTableBody(data, columns)
+		        }
+		    };
+		},
+		print(data, item) {
+			var dPaDtFa = {
+			    content: [
+			    	{
+						text: 'Hatos Lecheros',
+						width: '*',
+						alignment: 'center',
+						style: 'header'
+					},
+			        { 
+			        	text: 'Registro de todos los pagos '+item
+			        },
+			        this.table(data, ['codigo','fecha','monto','estado','trabajador','banco','cuenta'])
+			    ],
+			    styles: {
+					header: {
+						fontSize: 18,
+						bold: true
+					},
+					subheader: {
+						fontSize: 15,
+						bold: true
+					},
+					quote: {
+						italics: true
+					},
+					small: {
+						fontSize: 8
+					},
+					center:{
+
+					}
+				}
+			}
+			pdfMake.createPdf(dPaDtFa).open();
+		},
+		trad(item){
+			let ite=''
+			switch(item) {
+			  case 'day':
+			    ite = 'del dia'
+			    break;
+			  case 'week':
+			    ite = 'de la semana'
+			    break;
+			  case 'month':
+			    ite = 'del mes'
+			    break;
+			  case 'year':
+			    ite = 'del año'
+			    break;
+			}
+			return ite;
+		},
 		pdf(item)
 		{
 			pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
-			let model = item.split('/')[0];
-			let time = item.split('/')[1];
-
-			axios.post('/reports/pdf/'+model)
+			axios.get('/payments/pdf/'+item)
 			.then(response => {
-				this.dPayment = response.data.data
+				this.print(response.data.data,this.trad(item));
 			});
-
-			switch (time) {
-				case 'day':
-					if(this.dPayment.day!=undefined){
-						this.arrData = this.dPayment.day.forEach(element => {
-							console.log(Object.keys(element));
-							console.log(Object.values(element));
-						});
-					}
-					break;
-				case 'week':
-					console.log(this.dPayment.week);
-					break;
-				case 'month':
-					console.log(this.dPayment.month);
-					break;
-				case 'year':
-					console.log(this.dPayment.year);
-					break;
-			}
-
-			var docDefinition = {
-				content: [
-					{ text: 'Tables', style: 'header' },
-					'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
-					{ text: 'A simple table (no headers, no width specified, no spans, no styling)', style: 'subheader' },
-					'The following table has nothing more than a body array',
-					{
-						style: 'tableExample',
-						table: {
-							widths: [100, '*', 200, '*'],
-							body: [
-								['Column 1', 'Column 2', 'Column 3'],
-								['One value goes here', 'Another one here', 'OK?']
-							]
-						}
-					}
-				],
-				styles: {
-					header: {
-						fontSize: 18,
-						bold: true,
-						margin: [0, 0, 0, 10]
-					},
-					subheader: {
-						fontSize: 16,
-						bold: true,
-						margin: [0, 10, 0, 5]
-					},
-					tableExample: {
-						margin: [0, 5, 0, 15]
-					},
-					tableHeader: {
-						bold: true,
-						fontSize: 13,
-						color: 'black'
-					}
-				},
-				defaultStyle: {
-					// alignment: 'justify'
-				}
-			};
-			pdfMake.createPdf(docDefinition).open();
 		}
+		// Generando tabla y pdf
 	}
 }
 </script>
