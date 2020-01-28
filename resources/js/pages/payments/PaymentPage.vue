@@ -162,6 +162,7 @@ export default {
 	mixins: [mutatorMixin],
 
 	created(){
+		this.dateToday();
 	},
 
 	data() {
@@ -171,6 +172,7 @@ export default {
 			fecthUrl: "/payments/",
 			fecthTableUrl: "/payments/",
 			active: true,
+			today: ''
 		};
 	},
 
@@ -190,6 +192,10 @@ export default {
 			return value.split('-')[2]
 					+'/'+value.split('-')[1]
 					+'/'+value.split('-')[0]
+		},
+		dateToday(){
+			let date = new Date().toISOString().slice(0,10)
+			this.today = date.split('-')[2]+'-'+date.split('-')[1]+'-'+date.split('-')[0]
 		},
 		FormAmount(value, rowProperties){
 			return value+' Bs';
@@ -253,6 +259,12 @@ export default {
 		print(data, item) {
 			var dPaDtFa = {
 			    content: [
+		    		{
+						text: this.today,
+						width: '*',
+						alignment: 'right',
+						style: 'small'
+					},
 			    	{
 						text: 'Hatos Lecheros',
 						width: '*',
@@ -261,7 +273,7 @@ export default {
 					},
 			        { 
 						width: '*',
-						alignment: 'center',
+						alignment: 'left',
 						style: 'subheader',
 			        	text: 'Registro de todos los pagos '+item
 			        },
@@ -270,17 +282,24 @@ export default {
 			    styles: {
 					header: {
 						fontSize: 18,
-						bold: true
+						bold: true,
+						margin: [0, 0, 0, 10]
 					},
 					subheader: {
-						fontSize: 15,
-						bold: true
+						fontSize: 14,
+						bold: true,
+						margin: [0, 10, 0, 5]
 					},
-					quote: {
-						italics: true
+					tableExample: {
+						margin: [0, 5, 0, 15]
 					},
-					small: {
-						fontSize: 8
+					tableHeader: {
+						bold: true,
+						fontSize: 13,
+						color: 'black'
+					},
+					small:{
+						fontSize: 8,
 					}
 				}
 			}
