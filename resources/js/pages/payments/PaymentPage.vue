@@ -260,6 +260,9 @@ export default {
 						style: 'header'
 					},
 			        { 
+						width: '*',
+						alignment: 'center',
+						style: 'subheader',
 			        	text: 'Registro de todos los pagos '+item
 			        },
 			        this.table(data, ['codigo','fecha','monto','estado','trabajador','banco','cuenta'])
@@ -278,9 +281,6 @@ export default {
 					},
 					small: {
 						fontSize: 8
-					},
-					center:{
-
 					}
 				}
 			}

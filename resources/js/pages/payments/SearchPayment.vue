@@ -110,16 +110,36 @@
 								:filterable="false"
 								:sortable="false"
 							></table-column>
+							<table-column
+								label="Accion"
+								:sortable="false"
+								:filterable="false"
+							>
+								<template slot-scope="row">
+									<button
+										data-toggle="modal"
+										data-target="#payment"
+										class="btn btn-info"
+										@click="showPayment(row)"
+									>
+										ver
+									</button>
+								</template>
+							</table-column>
 						</table-component>
 					</div>
 				</div>
 			</div>
 		</div>
+		<modal-payment title="Pago" idTarget="payment">
+			<h4>hola vale</h4>
+		</modal-payment>
 	</div>
 </template>
 
 <script>
 import Modal from "@/components/Modal.vue";
+import ModalPayment from "./ModalPayment.vue";
 
 export default {
 	name: "SearchPayment",
@@ -177,6 +197,9 @@ export default {
             const response = await axios.post('payment/employee/'+this.employee.id, {page,filter,sort});
             return response.data;
         },
+        showPayment(payment){
+        	this.$bus.$emit('paymentPdf',payment);
+        },
         FormDate(value, rowProperties){
 			return value.split('-')[2]
 					+'/'+value.split('-')[1]
@@ -204,7 +227,8 @@ export default {
 	},
 
 	components: {
-		Modal
+		Modal,
+		ModalPayment
 	},
 };
 </script>
