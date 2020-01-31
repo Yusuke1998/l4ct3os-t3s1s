@@ -109,6 +109,7 @@ class PaymentController extends Controller
 
     public function status(PaymentStoreRequest $request, Payment $payment){
         $payment->status = 'realizado';
+        $payment->date   = date('Y-m-d');
         $payment->save();
         return response([
             'status' => 'success',
