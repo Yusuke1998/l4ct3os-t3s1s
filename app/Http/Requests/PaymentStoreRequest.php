@@ -17,14 +17,12 @@ class PaymentStoreRequest extends FormRequest
         if ($id) {
             return [
                 'amount'        => 'required',
-                'account_id'    => 'required',
                 'employee_id'   => 'required',
             ];
 
         } else {
             return [
                 'amount'        => 'required',
-                'account_id'    => 'required',
                 'employee_id'   => 'required',
             ];
 
@@ -36,7 +34,6 @@ class PaymentStoreRequest extends FormRequest
         return [
             'amount.required'       => 'El monto es obligatorio',
             'employee_id.required'  => 'El trabajador es obligatorio',
-            'account_id.required'   => 'La cuenta es obligatoria',
         ];
     }
 }

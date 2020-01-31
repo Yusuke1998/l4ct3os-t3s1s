@@ -16,8 +16,9 @@ $factory->define(Payment::class, function (Faker $faker) {
 							->random();
     return [
         'date'          => $faker->dateTimeBetween('2019-01-01',date('Y-m-d')),
-        'code'			=> rand(9001,1001),
+        'code'			=> 'COD'.rand(10000,59999),
         'status'		=> $faker->randomElement(['pendiente','realizado']),
+        'method'        => 'transferencia',
         'amount'		=> rand(1000,9000),
         'description'	=> 'n/a',
         'user_id'		=> User::all()

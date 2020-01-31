@@ -49,29 +49,50 @@
 								v-model="payment.amount">
 						</div>
 						<!-- col-12 -->
-						<div class="form-group col-3">
-							<label>Banco</label>
+						<template v-if="payment.method==='transferencia'">
+							<div class="form-group col-6">
+								<label>Banco</label>
+								<input 
+									disabled 
+									class="form-control" 
+									type="text" 
+									v-model="payment.account.name_bank">
+							</div>
+							<div class="form-group col-6">
+								<label>Nro. de Cuenta</label>
+								<input 
+									disabled 
+									class="form-control" 
+									type="text" 
+									v-model="payment.account.number">
+							</div>
+							
+						</template>
+						<!-- col-12 -->
+						<div class="form-group col-6">
+							<label>Metodo de Pago</label>
 							<input 
 								disabled 
 								class="form-control" 
 								type="text" 
-								v-model="payment.account.name_bank">
+								v-model="payment.method">
 						</div>
 						<div class="form-group col-6">
-							<label>Nro. de Cuenta</label>
-							<input 
-								disabled 
-								class="form-control" 
-								type="text" 
-								v-model="payment.account.number">
-						</div>
-						<div class="form-group col-3">
 							<label>Estado</label>
 							<input 
 								disabled 
 								class="form-control" 
 								type="text" 
 								v-model="payment.status">
+						</div>
+						<!-- col-12 -->
+						<div class="form-group col-12">
+							<label>Descripción</label>
+							<textarea
+								disabled 
+								class="form-control" 
+								type="text" 
+								v-model="payment.description"></textarea>
 						</div>
 						<!-- col-12 -->
 					</div>
@@ -137,7 +158,159 @@ export default {
 		pdf(){
 			pdfMake.vfs = pdfFonts.pdfMake.vfs;
 			if (this.payment!==null) {
-				var dPaDtFa = {
+				if (this.payment.method == 'transferencia') {
+					var dPaDtFa = {
+					    content: [
+					    	{
+								text: this.today,
+								width: '*',
+								alignment: 'right',
+								style: 'small'
+							},
+					    	{
+								text: 'Hatos Lecheros',
+								width: '*',
+								alignment: 'center',
+								style: 'header'
+							},
+					        { 
+								width: '*',
+								alignment: 'left',
+					        	text: 'Datos de trabajador',
+					        	style: 'subheader'
+					        },
+					        {
+					        	table: {
+						        	widths: [200, '*'],
+						            body: [
+										[
+											'Cedula', 'Nombre y Apellido'
+										],
+										[
+											{
+												text:this.payment.employee.identificacion_number,
+												italics: true, 
+												color: 'gray'
+											},
+											{
+												text:this.payment.employee.name,
+												italics: true, 
+												color: 'gray'
+											}
+										]
+									]
+								},
+					        },
+					        {
+					        	width: '*',
+								alignment: 'left',
+					        	text: 'Datos de Pago',
+					        	style: 'subheader'
+					        },
+					        {
+					        	table: {
+						        	widths: [100, 100, 100, '*'],
+						            headerRows: 1,
+						            body: [
+										[
+											'Codigo', 'Fecha', 'Metodo de Pago', 'Monto'
+										],
+										[
+											{
+												text: this.payment.code, 
+												italics: true, 
+												color: 'gray'
+											},
+											{
+												text: 
+												this.payment.date.split('-')[2]+'-'
+												+this.payment.date.split('-')[1]+'-'
+												+this.payment.date.split('-')[0], 
+												italics: true, 
+												color: 'gray'
+											},
+											{
+												text: this.payment.method, 
+												italics: true, 
+												color: 'gray'
+											},
+											{
+												text: this.payment.amount+' Bs', 
+												italics: true, 
+												color: 'gray'
+											}
+										]
+									]
+						        }
+					        },
+					        {
+					        	table: {
+						        	widths: [200, '*'],
+						            body: [
+										[
+											'Banco','Nro. de Cuenta'
+										],
+										[
+											{
+												text: this.payment.account.name_bank, 
+												italics: true, 
+												color: 'gray'
+											},
+											{
+												text: this.payment.account.number, 
+												italics: true, 
+												color: 'gray'
+											}
+										]
+									]
+								},
+					        },
+					        {
+								table: {
+						        	widths: ['*'],
+						            headerRows: 1,
+						            body: [
+										[
+											'Descripción'
+										],
+										[
+											{
+												text: this.payment.description, 
+												italics: true, 
+												color: 'gray'
+											}
+										]
+									]
+								}
+							}
+					    ],
+					    styles: {
+							header: {
+								fontSize: 18,
+								bold: true,
+								margin: [0, 0, 0, 10]
+							},
+							subheader: {
+								fontSize: 14,
+								bold: true,
+								margin: [0, 10, 0, 5]
+							},
+							tableExample: {
+								margin: [0, 5, 0, 15]
+							},
+							tableHeader: {
+								bold: true,
+								fontSize: 13,
+								color: 'black'
+							},
+							small:{
+								fontSize: 8,
+							}
+						}
+					}
+
+				}else{
+					var dPaDtFa = {
 				    content: [
 				    	{
 							text: this.today,
@@ -187,11 +360,11 @@ export default {
 				        },
 				        {
 				        	table: {
-					        	widths: [80, 80, 70, 100, '*'],
+					        	widths: [100, 100, 100, '*'],
 					            headerRows: 1,
 					            body: [
 									[
-										'Codigo', 'Fecha', 'Monto', 'Banco','Nro. de Cuenta'
+										'Codigo', 'Fecha', 'Metodo de Pago', 'Monto'
 									],
 									[
 										{
@@ -206,26 +379,39 @@ export default {
 											+this.payment.date.split('-')[0], 
 											italics: true, 
 											color: 'gray'
-										}, 
+										},
 										{
-											text: this.payment.amount+' Bs', 
-											italics: true, 
-											color: 'gray'
-										}, 
-										{
-											text: this.payment.account.name_bank, 
+											text: this.payment.method, 
 											italics: true, 
 											color: 'gray'
 										},
 										{
-											text: this.payment.account.number, 
+											text: this.payment.amount+' Bs', 
 											italics: true, 
 											color: 'gray'
 										}
 									]
 								]
 					        }
-				        }
+				        },
+				        {
+							table: {
+					        	widths: ['*'],
+					            headerRows: 1,
+					            body: [
+									[
+										'Descripción'
+									],
+									[
+										{
+											text: this.payment.description, 
+											italics: true, 
+											color: 'gray'
+										}
+									]
+								]
+							}
+						}
 				    ],
 				    styles: {
 						header: {
@@ -250,6 +436,7 @@ export default {
 							fontSize: 8,
 						}
 					}
+				}
 				}
 				pdfMake.createPdf(dPaDtFa).open();
 			}

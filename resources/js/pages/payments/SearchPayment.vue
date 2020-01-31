@@ -122,7 +122,7 @@
 										class="btn btn-info"
 										@click="showPayment(row)"
 									>
-										ver
+										<font-awesome-icon icon="eye"/>
 									</button>
 								</template>
 							</table-column>

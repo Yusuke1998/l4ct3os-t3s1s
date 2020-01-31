@@ -71,20 +71,20 @@
 							<table-column 
 								:sortable="false"
 								:filterable="false"
+								show="method" 
+								label="Metodo de Pago"
+							></table-column>
+							<table-column 
+								:sortable="false"
+								:filterable="false"
 								show="employee.name" 
 								label="Empleado"
 							></table-column>
 							<table-column 
 								:sortable="false"
 								:filterable="false"
-								show="account.name_bank" 
-								label="Banco"
-							></table-column>
-							<table-column 
-								:sortable="false"
-								:filterable="false"
-								show="account.number" 
-								label="Nro. Cuenta"
+								show="employee.identificacion_number" 
+								label="Cedula"
 							></table-column>
 							<table-column
 								show="status"
@@ -277,7 +277,7 @@ export default {
 						style: 'subheader',
 			        	text: 'Registro de todos los pagos '+item
 			        },
-			        this.table(data, ['codigo','fecha','monto','estado','trabajador','banco','cuenta'])
+			        this.table(data, ['codigo','fecha','monto','estado','metodo','trabajador','cedula'])
 			    ],
 			    styles: {
 					header: {

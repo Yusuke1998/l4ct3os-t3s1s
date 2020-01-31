@@ -28,6 +28,7 @@ class PaymentController extends Controller
         $payments = Payment::with('employee','account','user')
             ->where('date','LIKE',$filter)
             ->orWhere('code','LIKE',$filter)
+            ->orWhere('method','LIKE',$filter)
             ->orWhere('amount','LIKE',$filter)
             ->orWhere('status','LIKE',$filter)
             ->orWhere('description','LIKE',$filter)
@@ -82,12 +83,15 @@ class PaymentController extends Controller
     public function register(PaymentStoreRequest $request)
     {
         $payment = new Payment();
-        $payment->code='COD'.rand(10000,99999);
-        $payment->amount        = $request->amount;
-        $payment->description   = $request->description;
-        $payment->employee_id   = $request->employee_id;
-        $payment->account_id    = $request->account_id;
-        $payment->user_id=\Auth::User()->id;
+        $payment->code          =   'COD'.rand(10000,99999);
+        $payment->amount        =   $request->amount;
+        $payment->description   =   !isset($request->description)?'n/a':$request->description;
+        $payment->employee_id   =   $request->employee_id;
+        $payment->user_id       =   \Auth::User()->id;
+        if ($request->method === 'transferencia')
+        {
+            $payment->account_id = $request->account_id;
+        }
         $payment->save();
         return response([
             'status' => 'success',

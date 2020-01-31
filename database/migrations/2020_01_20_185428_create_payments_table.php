@@ -13,6 +13,7 @@ class CreatePaymentsTable extends Migration
             $table->string('code')->unique();
             $table->float('amount');
             $table->date('date')->default(date('Y-m-d'));
+            $table->enum('method',['efectivo','transferencia']);
             $table->enum('status',
                 ['realizado','pendiente']
             )->default('pendiente');
@@ -24,7 +25,9 @@ class CreatePaymentsTable extends Migration
                     ->on('employees')
                     ->onDelete('cascade');
 
-            $table->bigInteger('account_id')->unsigned();
+            $table->bigInteger('account_id')
+                        ->unsigned()
+                        ->nullable();
             $table->foreign('account_id')
                     ->references('id')
                     ->on('accounts')

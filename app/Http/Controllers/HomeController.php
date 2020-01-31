@@ -21,9 +21,8 @@ class HomeController extends Controller
     public function paymentReports($item='')
     {   
     	$pagos = DB::table('payments')
-    				->join('accounts', 'payments.account_id', '=', 'accounts.id')
             		->join('employees', 'payments.employee_id', '=', 'employees.id')
-                    ->select(DB::raw('code AS codigo, date AS fecha, CAST(amount as decimal(16,2)) as monto, status AS estado, employees.name as trabajador, accounts.number as cuenta, accounts.name_bank as banco'));
+                    ->select(DB::raw('code AS codigo, date AS fecha, CAST(amount as decimal(16,2)) as monto, status AS estado, method as metodo, employees.name as trabajador, employees.identificacion_number as cedula'));
         switch ($item) {
 			case 'day':
 				$data = $pagos

@@ -27,7 +27,26 @@
 					:value="employee.id">{{ employee.name }} {{ employee.position }}</option>
 			</select>
 		</div>
-		<template v-show="form.employee_id>0 && form.employee_id!==''">
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1"
+					>Metodo de Pago</span
+				>
+			</div>
+			<select
+				:disabled="form.employee_id==0||form.employee_id==''"
+				class="form-control"
+				id="exampleFormControlSelect1"
+				aria-describedby="basic-addon4"
+				placeholder="Seleccionar"
+				v-model="form.method"
+				required>
+				<option value="efectivo"> Efectivo</option>
+				<option value="transferencia"> Transferencia</option>
+			</select>
+		</div>
+
+		<template v-if="form.method === 'transferencia'">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" id="basic-addon1"
@@ -53,14 +72,12 @@
 						:key="account.id" 
 						:value="account.id">{{ account.name_bank }} {{ account.number }}</option>
 				</select>
-
 				<button 
 					type="button" 
 					class="btn btn-primary" 
 					@click="modalMy('modalAccounts',1)">
 					<font-awesome-icon prefix="fa" icon="university"/> Crear
 				</button>
-
 				<!-- Modal -->
 				<div class="modal fade"
 					id="modalAccounts"
@@ -71,33 +88,33 @@
 					</div>
 				</div>
 			</div>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="basic-addon1">Monto (BS)</span>
-				</div>
-				<input
-					type="number"
-					:disabled="form.account_id==0||form.account_id==''"
-					class="form-control"
-					placeholder="Monto a pagar"
-					aria-label="Monto"
-					aria-describedby="basic-addon1"
-					v-model="form.amount"
-					required
-				/>
-			</div>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="basic-addon2">Descripcion</span>
-				</div>
-				<textarea 
-					:disabled="form.amount==''"
-					class="form-control"
-					aria-label="Descripcion"
-					aria-describedby="basic-addon2"
-					v-model="form.description"></textarea>
-			</div>
 		</template>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">Monto (BS)</span>
+			</div>
+			<input
+				type="number"
+				:disabled="form.method==undefined||form.method==null||form.method==''"
+				class="form-control"
+				placeholder="Monto a pagar"
+				aria-label="Monto"
+				aria-describedby="basic-addon1"
+				v-model="form.amount"
+				required
+			/>
+		</div>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon2">Descripcion</span>
+			</div>
+			<textarea 
+				:disabled="form.amount==''"
+				class="form-control"
+				aria-label="Descripcion"
+				aria-describedby="basic-addon2"
+				v-model="form.description"></textarea>
+		</div>
 	</form>
 </template>
 
@@ -121,8 +138,9 @@ export default {
 				id: "",
 				amount: "",
 				description: "",
+				method:"",
 				account_id: 0,
-				employee_id: 0,
+				employee_id: 0
 			},
 
 			account:null,
