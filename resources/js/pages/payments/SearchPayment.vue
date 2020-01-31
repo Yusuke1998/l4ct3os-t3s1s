@@ -87,22 +87,22 @@
 								label="Monto"
 							></table-column>
 							<table-column 
+								:sortable="false"
+								:filterable="false"
+								show="method" 
+								label="Metodo de Pago"
+							></table-column>
+							<table-column 
+								:sortable="false"
+								:filterable="false"
 								show="employee.name" 
 								label="Empleado"
-								:sortable="false"
-								:filterable="false"
 							></table-column>
 							<table-column 
-								show="account.name_bank" 
-								label="Banco"
 								:sortable="false"
 								:filterable="false"
-							></table-column>
-							<table-column 
-								show="account.number" 
-								label="Nro. Cuenta"
-								:sortable="false"
-								:filterable="false"
+								show="employee.identificacion_number" 
+								label="Cedula"
 							></table-column>
 							<table-column
 								show="status"
@@ -179,6 +179,7 @@ export default {
 				.then(response => {
 					if (response.data.data !== null) {
 						this.employee = response.data.data
+						this.trad(this.employee.position)
 						if (this.$refs.table!==null && this.$refs.table!==undefined) {
 							this.$refs.table.refresh();
 						}
