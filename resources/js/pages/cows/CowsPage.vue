@@ -22,6 +22,14 @@
 			<modal :title="title" idTarget="vaccines" :accion="accion">
 				<form-vaccine></form-vaccine>
 			</modal>
+
+			<modal title="Vacunas Aplicadas" idTarget="vaccinescow" :accion="accion">
+				<vaccines-cow></vaccines-cow>
+			</modal>
+
+			<modal title="Extracciones de Leche" idTarget="extractionscow" :accion="accion">
+				<extractions-cow></extractions-cow>
+			</modal>
 		</template>
 
 		<template v-slot:body>
@@ -101,6 +109,20 @@
 							>
 								<font-awesome-icon icon="syringe" />
 							</button>
+							<button
+								class="btn btn-sm btn-primary"
+								data-toggle="modal"
+								data-target="#vaccinescow"
+								@click="setCow(row)">
+								Historial de Vacunas
+							</button>
+							<button
+								class="btn btn-sm btn-primary"
+								data-toggle="modal"
+								data-target="#extractionscow"
+								@click="setCow(row)">
+								Historial de Extracciones
+							</button>
 						</template>
 					</table-column>
 				</table-component>
@@ -113,6 +135,8 @@
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import Modal from "@/components/Modal.vue";
 import FormCow from "./FormCow";
+import VaccinesCow from "./VaccinesCow";
+import ExtractionsCow from "./ExtractionsCow";
 import FormVaccine from "../vaccines/FormVaccine";
 import mutatorMixin from "@/mixins/mutator.js";
 
@@ -134,7 +158,9 @@ export default {
 		AdminLayout,
 		Modal,
 		FormCow,
-		FormVaccine
+		FormVaccine,
+		VaccinesCow,
+		ExtractionsCow
 	},
 
 	methods: {
@@ -144,6 +170,10 @@ export default {
 
 		setCowId(id) {
 			this.$bus.$emit("cow_id", { id: id });
+		},
+
+		setCow(cow) {
+			this.$bus.$emit("cow", { cow: cow });
 		}
 	}
 };

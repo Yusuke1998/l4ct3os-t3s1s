@@ -3,11 +3,13 @@
 namespace App\Models\Cow;
 use App\Models\Cow\CowMutator;
 use App\Models\Cow\CowScope;
+use App\Models\Cow\CowRelationship;
 use Illuminate\Database\Eloquent\Model;
 
 class Cow extends Model {
 	use CowMutator,
-		CowScope;
+		CowScope,
+		CowRelationship;
 
 	protected $guarded = [];
 	protected $appends = ['ordeno'];

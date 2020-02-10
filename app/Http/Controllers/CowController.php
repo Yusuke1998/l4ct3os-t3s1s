@@ -36,7 +36,7 @@ class CowController extends Controller {
 		$fieldname = isset($request->sort['fieldName'])?$request->sort['fieldName']:'created_at';
 		$filter = '%'.$request->filter.'%';
 
-		$cows = Cow::where('year_birth','LIKE',$filter)
+		$cows = Cow::with('extractions','vaccines')->where('year_birth','LIKE',$filter)
 			->orWhere('weight','LIKE',$filter)
 			->orWhere('type','LIKE',$filter)
 			->orWhere('code','LIKE',$filter)
