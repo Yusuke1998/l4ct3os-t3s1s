@@ -18,6 +18,9 @@
 			<modal :title="title" idTarget="employees" :accion="accion">
 				<form-employee></form-employee>
 			</modal>
+			<modal :title="title" idTarget="employees-info" :accion="accion">
+				<employee-info></employee-info>
+			</modal>
 		</template>
 
 		<template v-slot:body>
@@ -70,6 +73,17 @@
 							>
 								Editar
 							</button>
+							<button
+								class="btn btn-info"
+								data-toggle="modal"
+								data-target="#employees-info"
+								@click="
+									setTitle('Historial de Empleado'),
+									setEmployee(row)
+								"
+							>
+								Historial de Empleado
+							</button>
 						</template>
 					</table-column>
 				</table-component>
@@ -82,6 +96,7 @@
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import Modal from "@/components/Modal.vue";
 import FormEmployee from "./FormEmployee";
+import EmployeeInfo from "./EmployeeInfo";
 import mutatorMixin from "@/mixins/mutator.js";
 
 export default {
@@ -101,10 +116,15 @@ export default {
 	components: {
 		AdminLayout,
 		Modal,
-		FormEmployee
+		FormEmployee,
+		EmployeeInfo
 	},
 
-	methods: {}
+	methods: {
+		setEmployee(employee) {
+			this.$bus.$emit("employee", { employee: employee });
+		}
+	}
 };
 </script>
 

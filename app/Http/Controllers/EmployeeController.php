@@ -14,7 +14,7 @@ class EmployeeController extends Controller {
 		$fieldname = isset($request->sort['fieldName'])?$request->sort['fieldName']:'created_at';
 		$filter = '%'.$request->filter.'%';
 
-		$extractions = Employee::where('name','LIKE',$filter)
+		$extractions = Employee::with('vaccines','extractions')->where('name','LIKE',$filter)
 			->orWhere('identificacion_number','LIKE',$filter)
 			->orWhere('position','LIKE',$filter)
 			->orWhere('date_birth','LIKE',$filter)
