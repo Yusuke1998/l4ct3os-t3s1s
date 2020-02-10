@@ -75,7 +75,7 @@ class CowController extends Controller {
 	}
 
 	public function update(CowStoreRequest $request, Cow $cow) {
-		$cow->update($request->all());
+		$cow->update($request->except(['extractions','vaccines']));
 		return response([
 			'status' => 'success',
 			'data' => $cow,
